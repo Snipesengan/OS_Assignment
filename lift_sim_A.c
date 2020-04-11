@@ -263,7 +263,7 @@ bool hasStopped(void){
 
     int _tmp;
     pthread_mutex_lock(&stop);
-    _tmp = stopIssued == 1; 
+    _tmp = stopIssued;
     pthread_mutex_unlock(&stop);
 
     return _tmp == 1;

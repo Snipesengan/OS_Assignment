@@ -4,28 +4,6 @@ Request No: 0
 New Lift Request From Floor 7 to Floor 2
 Request No: 1
 --------------------------
-Lift-1 Operation
-Previous position: Floor 0
-Request: Floor 1 to Floor 5
-Detail operations:
-	Go from Floor 0 to Floor 1
-	Go from floor 1 to Floor 5
-	#movement for this request: 5
-	#request: 1
-	Total #movement: 5
-Current position: Floor 5
---------------------------
-Lift-2 Operation
-Previous position: Floor 0
-Request: Floor 7 to Floor 2
-Detail operations:
-	Go from Floor 0 to Floor 7
-	Go from floor 7 to Floor 2
-	#movement for this request: 12
-	#request: 1
-	Total #movement: 12
-Current position: Floor 2
---------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 2
 --------------------------
@@ -41,6 +19,17 @@ Request No: 5
 New Lift Request From Floor 7 to Floor 2
 Request No: 6
 --------------------------
+Lift-0 Operation
+Previous position: Floor 0
+Request: Floor 1 to Floor 5
+Detail operations:
+	Go from Floor 0 to Floor 1
+	Go from floor 1 to Floor 5
+	#movement for this request: 5
+	#request: 1
+	Total #movement: 5
+Current position: Floor 5
+--------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 7
 --------------------------
@@ -53,10 +42,18 @@ Request No: 9
 New Lift Request From Floor 7 to Floor 2
 Request No: 10
 --------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 11
+Lift-2 Operation
+Previous position: Floor 0
+Request: Floor 7 to Floor 2
+Detail operations:
+	Go from Floor 0 to Floor 7
+	Go from floor 7 to Floor 2
+	#movement for this request: 12
+	#request: 1
+	Total #movement: 12
+Current position: Floor 2
 --------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 0
 Request: Floor 3 to Floor 8
 Detail operations:
@@ -67,10 +64,13 @@ Detail operations:
 	Total #movement: 8
 Current position: Floor 8
 --------------------------
+New Lift Request From Floor 3 to Floor 8
+Request No: 11
+--------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 12
 --------------------------
-Lift-1 Operation
+Lift-0 Operation
 Previous position: Floor 5
 Request: Floor 3 to Floor 4
 Detail operations:
@@ -80,9 +80,6 @@ Detail operations:
 	#request: 2
 	Total #movement: 8
 Current position: Floor 4
---------------------------
-New Lift Request From Floor 5 to Floor 6
-Request No: 13
 --------------------------
 Lift-2 Operation
 Previous position: Floor 2
@@ -95,10 +92,7 @@ Detail operations:
 	Total #movement: 16
 Current position: Floor 6
 --------------------------
-New Lift Request From Floor 1 to Floor 5
-Request No: 14
---------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 8
 Request: Floor 1 to Floor 5
 Detail operations:
@@ -109,18 +103,24 @@ Detail operations:
 	Total #movement: 19
 Current position: Floor 5
 --------------------------
+New Lift Request From Floor 5 to Floor 6
+Request No: 13
+--------------------------
+New Lift Request From Floor 1 to Floor 5
+Request No: 14
+--------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 15
 --------------------------
 Lift-1 Operation
-Previous position: Floor 4
+Previous position: Floor 5
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 4 to Floor 7
+	Go from Floor 5 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 8
+	#movement for this request: 7
 	#request: 3
-	Total #movement: 16
+	Total #movement: 26
 Current position: Floor 2
 --------------------------
 Lift-2 Operation
@@ -134,50 +134,50 @@ Detail operations:
 	Total #movement: 24
 Current position: Floor 8
 --------------------------
+Lift-0 Operation
+Previous position: Floor 4
+Request: Floor 3 to Floor 4
+Detail operations:
+	Go from Floor 4 to Floor 3
+	Go from floor 3 to Floor 4
+	#movement for this request: 2
+	#request: 3
+	Total #movement: 10
+Current position: Floor 4
+--------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 16
 --------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 17
 --------------------------
-Lift-0 Operation
-Previous position: Floor 5
-Request: Floor 3 to Floor 4
-Detail operations:
-	Go from Floor 5 to Floor 3
-	Go from floor 3 to Floor 4
-	#movement for this request: 3
-	#request: 3
-	Total #movement: 22
-Current position: Floor 4
---------------------------
 New Lift Request From Floor 1 to Floor 5
 Request No: 18
 --------------------------
-Lift-2 Operation
-Previous position: Floor 8
-Request: Floor 1 to Floor 5
-Detail operations:
-	Go from Floor 8 to Floor 1
-	Go from floor 1 to Floor 5
-	#movement for this request: 11
-	#request: 4
-	Total #movement: 35
-Current position: Floor 5
---------------------------
 Lift-1 Operation
 Previous position: Floor 2
-Request: Floor 7 to Floor 2
+Request: Floor 1 to Floor 5
 Detail operations:
-	Go from Floor 2 to Floor 7
-	Go from floor 7 to Floor 2
-	#movement for this request: 10
+	Go from Floor 2 to Floor 1
+	Go from floor 1 to Floor 5
+	#movement for this request: 5
 	#request: 4
-	Total #movement: 26
-Current position: Floor 2
+	Total #movement: 31
+Current position: Floor 5
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 19
+--------------------------
+Lift-2 Operation
+Previous position: Floor 8
+Request: Floor 7 to Floor 2
+Detail operations:
+	Go from Floor 8 to Floor 7
+	Go from floor 7 to Floor 2
+	#movement for this request: 6
+	#request: 4
+	Total #movement: 30
+Current position: Floor 2
 --------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 20
@@ -190,13 +190,13 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 6
 	#request: 4
-	Total #movement: 28
+	Total #movement: 16
 Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 21
 --------------------------
-Lift-2 Operation
+Lift-1 Operation
 Previous position: Floor 5
 Request: Floor 3 to Floor 4
 Detail operations:
@@ -204,10 +204,10 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 5
-	Total #movement: 38
+	Total #movement: 34
 Current position: Floor 4
 --------------------------
-Lift-1 Operation
+Lift-2 Operation
 Previous position: Floor 2
 Request: Floor 5 to Floor 6
 Detail operations:
@@ -215,14 +215,11 @@ Detail operations:
 	Go from floor 5 to Floor 6
 	#movement for this request: 4
 	#request: 5
-	Total #movement: 30
+	Total #movement: 34
 Current position: Floor 6
 --------------------------
 New Lift Request From Floor 5 to Floor 6
 Request No: 22
---------------------------
-New Lift Request From Floor 1 to Floor 5
-Request No: 23
 --------------------------
 Lift-0 Operation
 Previous position: Floor 8
@@ -232,36 +229,39 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 11
 	#request: 5
-	Total #movement: 39
+	Total #movement: 27
 Current position: Floor 5
+--------------------------
+New Lift Request From Floor 1 to Floor 5
+Request No: 23
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 24
 --------------------------
 Lift-1 Operation
-Previous position: Floor 6
+Previous position: Floor 4
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 6 to Floor 7
+	Go from Floor 4 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 6
+	#movement for this request: 8
 	#request: 6
-	Total #movement: 36
+	Total #movement: 42
 Current position: Floor 2
+--------------------------
+Lift-2 Operation
+Previous position: Floor 6
+Request: Floor 3 to Floor 8
+Detail operations:
+	Go from Floor 6 to Floor 3
+	Go from floor 3 to Floor 8
+	#movement for this request: 8
+	#request: 6
+	Total #movement: 42
+Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 25
---------------------------
-Lift-2 Operation
-Previous position: Floor 4
-Request: Floor 3 to Floor 8
-Detail operations:
-	Go from Floor 4 to Floor 3
-	Go from floor 3 to Floor 8
-	#movement for this request: 6
-	#request: 6
-	Total #movement: 44
-Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 26
@@ -274,33 +274,39 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 6
-	Total #movement: 42
+	Total #movement: 30
 Current position: Floor 4
 --------------------------
 New Lift Request From Floor 1 to Floor 5
 Request No: 27
 --------------------------
-Lift-1 Operation
-Previous position: Floor 2
-Request: Floor 1 to Floor 5
-Detail operations:
-	Go from Floor 2 to Floor 1
-	Go from floor 1 to Floor 5
-	#movement for this request: 5
-	#request: 7
-	Total #movement: 41
-Current position: Floor 5
---------------------------
 Lift-2 Operation
 Previous position: Floor 8
+Request: Floor 1 to Floor 5
+Detail operations:
+	Go from Floor 8 to Floor 1
+	Go from floor 1 to Floor 5
+	#movement for this request: 11
+	#request: 7
+	Total #movement: 53
+Current position: Floor 5
+--------------------------
+Lift-1 Operation
+Previous position: Floor 2
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 8 to Floor 7
+	Go from Floor 2 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 6
+	#movement for this request: 10
 	#request: 7
-	Total #movement: 50
+	Total #movement: 52
 Current position: Floor 2
+--------------------------
+New Lift Request From Floor 7 to Floor 2
+Request No: 28
+--------------------------
+New Lift Request From Floor 3 to Floor 8
+Request No: 29
 --------------------------
 Lift-0 Operation
 Previous position: Floor 4
@@ -310,19 +316,13 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 6
 	#request: 7
-	Total #movement: 48
+	Total #movement: 36
 Current position: Floor 8
---------------------------
-New Lift Request From Floor 7 to Floor 2
-Request No: 28
---------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 29
 --------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 30
 --------------------------
-Lift-1 Operation
+Lift-2 Operation
 Previous position: Floor 5
 Request: Floor 3 to Floor 4
 Detail operations:
@@ -330,13 +330,13 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 8
-	Total #movement: 44
+	Total #movement: 56
 Current position: Floor 4
 --------------------------
 New Lift Request From Floor 5 to Floor 6
 Request No: 31
 --------------------------
-Lift-2 Operation
+Lift-1 Operation
 Previous position: Floor 2
 Request: Floor 5 to Floor 6
 Detail operations:
@@ -344,7 +344,7 @@ Detail operations:
 	Go from floor 5 to Floor 6
 	#movement for this request: 4
 	#request: 8
-	Total #movement: 54
+	Total #movement: 56
 Current position: Floor 6
 --------------------------
 New Lift Request From Floor 1 to Floor 5
@@ -358,39 +358,33 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 11
 	#request: 8
-	Total #movement: 59
+	Total #movement: 47
 Current position: Floor 5
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 33
 --------------------------
 Lift-1 Operation
-Previous position: Floor 4
+Previous position: Floor 6
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 4 to Floor 7
+	Go from Floor 6 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 8
+	#movement for this request: 6
 	#request: 9
-	Total #movement: 52
+	Total #movement: 62
 Current position: Floor 2
 --------------------------
 Lift-2 Operation
-Previous position: Floor 6
+Previous position: Floor 4
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 6 to Floor 3
+	Go from Floor 4 to Floor 3
 	Go from floor 3 to Floor 8
-	#movement for this request: 8
+	#movement for this request: 6
 	#request: 9
 	Total #movement: 62
 Current position: Floor 8
---------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 34
---------------------------
-New Lift Request From Floor 3 to Floor 4
-Request No: 35
 --------------------------
 Lift-0 Operation
 Previous position: Floor 5
@@ -400,25 +394,28 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 9
-	Total #movement: 62
+	Total #movement: 50
 Current position: Floor 4
+--------------------------
+New Lift Request From Floor 3 to Floor 8
+Request No: 34
+--------------------------
+New Lift Request From Floor 3 to Floor 4
+Request No: 35
 --------------------------
 New Lift Request From Floor 1 to Floor 5
 Request No: 36
 --------------------------
-Lift-1 Operation
-Previous position: Floor 2
+Lift-0 Operation
+Previous position: Floor 4
 Request: Floor 1 to Floor 5
 Detail operations:
-	Go from Floor 2 to Floor 1
+	Go from Floor 4 to Floor 1
 	Go from floor 1 to Floor 5
-	#movement for this request: 5
+	#movement for this request: 7
 	#request: 10
 	Total #movement: 57
 Current position: Floor 5
---------------------------
-New Lift Request From Floor 7 to Floor 2
-Request No: 37
 --------------------------
 Lift-2 Operation
 Previous position: Floor 8
@@ -431,14 +428,17 @@ Detail operations:
 	Total #movement: 68
 Current position: Floor 2
 --------------------------
+New Lift Request From Floor 7 to Floor 2
+Request No: 37
+--------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 38
 --------------------------
-Lift-0 Operation
-Previous position: Floor 4
+Lift-1 Operation
+Previous position: Floor 2
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 4 to Floor 3
+	Go from Floor 2 to Floor 3
 	Go from floor 3 to Floor 8
 	#movement for this request: 6
 	#request: 10
@@ -448,26 +448,25 @@ Current position: Floor 8
 New Lift Request From Floor 3 to Floor 4
 Request No: 39
 --------------------------
-Lift-1 Operation
-Previous position: Floor 5
-Request: Floor 3 to Floor 4
-Detail operations:
-	Go from Floor 5 to Floor 3
-	Go from floor 3 to Floor 4
-	#movement for this request: 3
-	#request: 11
-	Total #movement: 60
-Current position: Floor 4
---------------------------
 Lift-2 Operation
 Previous position: Floor 2
+Request: Floor 3 to Floor 4
+Detail operations:
+	Go from Floor 2 to Floor 3
+	Go from floor 3 to Floor 4
+	#movement for this request: 2
+	#request: 11
+	Total #movement: 70
+Current position: Floor 4
+--------------------------
+Lift-0 Operation
+Previous position: Floor 5
 Request: Floor 5 to Floor 6
 Detail operations:
-	Go from Floor 2 to Floor 5
 	Go from floor 5 to Floor 6
-	#movement for this request: 4
+	#movement for this request: 1
 	#request: 11
-	Total #movement: 72
+	Total #movement: 58
 Current position: Floor 6
 --------------------------
 New Lift Request From Floor 5 to Floor 6
@@ -476,7 +475,7 @@ Request No: 40
 New Lift Request From Floor 1 to Floor 5
 Request No: 41
 --------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 8
 Request: Floor 1 to Floor 5
 Detail operations:
@@ -490,7 +489,7 @@ Current position: Floor 5
 New Lift Request From Floor 7 to Floor 2
 Request No: 42
 --------------------------
-Lift-1 Operation
+Lift-2 Operation
 Previous position: Floor 4
 Request: Floor 7 to Floor 2
 Detail operations:
@@ -498,10 +497,10 @@ Detail operations:
 	Go from floor 7 to Floor 2
 	#movement for this request: 8
 	#request: 12
-	Total #movement: 68
+	Total #movement: 78
 Current position: Floor 2
 --------------------------
-Lift-2 Operation
+Lift-0 Operation
 Previous position: Floor 6
 Request: Floor 3 to Floor 8
 Detail operations:
@@ -509,16 +508,10 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 8
 	#request: 12
-	Total #movement: 80
+	Total #movement: 66
 Current position: Floor 8
 --------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 43
---------------------------
-New Lift Request From Floor 3 to Floor 4
-Request No: 44
---------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 5
 Request: Floor 3 to Floor 4
 Detail operations:
@@ -529,35 +522,44 @@ Detail operations:
 	Total #movement: 82
 Current position: Floor 4
 --------------------------
+New Lift Request From Floor 3 to Floor 8
+Request No: 43
+--------------------------
+New Lift Request From Floor 3 to Floor 4
+Request No: 44
+--------------------------
 New Lift Request From Floor 1 to Floor 5
 Request No: 45
 --------------------------
 Lift-2 Operation
-Previous position: Floor 8
+Previous position: Floor 2
 Request: Floor 1 to Floor 5
 Detail operations:
-	Go from Floor 8 to Floor 1
+	Go from Floor 2 to Floor 1
 	Go from floor 1 to Floor 5
-	#movement for this request: 11
+	#movement for this request: 5
 	#request: 13
-	Total #movement: 91
+	Total #movement: 83
 Current position: Floor 5
+--------------------------
+Lift-0 Operation
+Previous position: Floor 8
+Request: Floor 7 to Floor 2
+Detail operations:
+	Go from Floor 8 to Floor 7
+	Go from floor 7 to Floor 2
+	#movement for this request: 6
+	#request: 13
+	Total #movement: 72
+Current position: Floor 2
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 46
 --------------------------
-Lift-1 Operation
-Previous position: Floor 2
-Request: Floor 7 to Floor 2
-Detail operations:
-	Go from Floor 2 to Floor 7
-	Go from floor 7 to Floor 2
-	#movement for this request: 10
-	#request: 13
-	Total #movement: 78
-Current position: Floor 2
+New Lift Request From Floor 3 to Floor 8
+Request No: 47
 --------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 4
 Request: Floor 3 to Floor 8
 Detail operations:
@@ -568,21 +570,18 @@ Detail operations:
 	Total #movement: 88
 Current position: Floor 8
 --------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 47
---------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 48
 --------------------------
 Lift-0 Operation
-Previous position: Floor 8
+Previous position: Floor 2
 Request: Floor 3 to Floor 4
 Detail operations:
-	Go from Floor 8 to Floor 3
+	Go from Floor 2 to Floor 3
 	Go from floor 3 to Floor 4
-	#movement for this request: 6
+	#movement for this request: 2
 	#request: 14
-	Total #movement: 94
+	Total #movement: 74
 Current position: Floor 4
 --------------------------
 Lift-2 Operation
@@ -592,7 +591,7 @@ Detail operations:
 	Go from floor 5 to Floor 6
 	#movement for this request: 1
 	#request: 14
-	Total #movement: 92
+	Total #movement: 84
 Current position: Floor 6
 --------------------------
 New Lift Request From Floor 5 to Floor 6
@@ -602,14 +601,14 @@ New Lift Request From Floor 1 to Floor 5
 Request No: 50
 --------------------------
 Lift-1 Operation
-Previous position: Floor 2
+Previous position: Floor 8
 Request: Floor 1 to Floor 5
 Detail operations:
-	Go from Floor 2 to Floor 1
+	Go from Floor 8 to Floor 1
 	Go from floor 1 to Floor 5
-	#movement for this request: 5
+	#movement for this request: 11
 	#request: 14
-	Total #movement: 83
+	Total #movement: 99
 Current position: Floor 5
 --------------------------
 New Lift Request From Floor 7 to Floor 2
@@ -623,35 +622,35 @@ Detail operations:
 	Go from floor 7 to Floor 2
 	#movement for this request: 6
 	#request: 15
-	Total #movement: 98
+	Total #movement: 90
 Current position: Floor 2
+--------------------------
+Lift-0 Operation
+Previous position: Floor 4
+Request: Floor 3 to Floor 8
+Detail operations:
+	Go from Floor 4 to Floor 3
+	Go from floor 3 to Floor 8
+	#movement for this request: 6
+	#request: 15
+	Total #movement: 80
+Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 52
 --------------------------
-Lift-1 Operation
-Previous position: Floor 5
-Request: Floor 3 to Floor 8
-Detail operations:
-	Go from Floor 5 to Floor 3
-	Go from floor 3 to Floor 8
-	#movement for this request: 7
-	#request: 15
-	Total #movement: 90
-Current position: Floor 8
---------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 53
 --------------------------
-Lift-0 Operation
-Previous position: Floor 4
+Lift-1 Operation
+Previous position: Floor 5
 Request: Floor 3 to Floor 4
 Detail operations:
-	Go from Floor 4 to Floor 3
+	Go from Floor 5 to Floor 3
 	Go from floor 3 to Floor 4
-	#movement for this request: 2
+	#movement for this request: 3
 	#request: 15
-	Total #movement: 96
+	Total #movement: 102
 Current position: Floor 4
 --------------------------
 New Lift Request From Floor 1 to Floor 5
@@ -665,10 +664,10 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 5
 	#request: 16
-	Total #movement: 103
+	Total #movement: 95
 Current position: Floor 5
 --------------------------
-Lift-1 Operation
+Lift-0 Operation
 Previous position: Floor 8
 Request: Floor 7 to Floor 2
 Detail operations:
@@ -676,7 +675,7 @@ Detail operations:
 	Go from floor 7 to Floor 2
 	#movement for this request: 6
 	#request: 16
-	Total #movement: 96
+	Total #movement: 86
 Current position: Floor 2
 --------------------------
 New Lift Request From Floor 7 to Floor 2
@@ -685,7 +684,7 @@ Request No: 55
 New Lift Request From Floor 3 to Floor 8
 Request No: 56
 --------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 4
 Request: Floor 3 to Floor 8
 Detail operations:
@@ -693,13 +692,13 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 6
 	#request: 16
-	Total #movement: 102
+	Total #movement: 108
 Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 57
 --------------------------
-Lift-1 Operation
+Lift-0 Operation
 Previous position: Floor 2
 Request: Floor 3 to Floor 4
 Detail operations:
@@ -707,7 +706,7 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 2
 	#request: 17
-	Total #movement: 98
+	Total #movement: 88
 Current position: Floor 4
 --------------------------
 Lift-2 Operation
@@ -717,19 +716,8 @@ Detail operations:
 	Go from floor 5 to Floor 6
 	#movement for this request: 1
 	#request: 17
-	Total #movement: 104
+	Total #movement: 96
 Current position: Floor 6
---------------------------
-Lift-0 Operation
-Previous position: Floor 8
-Request: Floor 1 to Floor 5
-Detail operations:
-	Go from Floor 8 to Floor 1
-	Go from floor 1 to Floor 5
-	#movement for this request: 11
-	#request: 17
-	Total #movement: 113
-Current position: Floor 5
 --------------------------
 New Lift Request From Floor 5 to Floor 6
 Request No: 58
@@ -737,10 +725,21 @@ Request No: 58
 New Lift Request From Floor 1 to Floor 5
 Request No: 59
 --------------------------
+Lift-1 Operation
+Previous position: Floor 8
+Request: Floor 1 to Floor 5
+Detail operations:
+	Go from Floor 8 to Floor 1
+	Go from floor 1 to Floor 5
+	#movement for this request: 11
+	#request: 17
+	Total #movement: 119
+Current position: Floor 5
+--------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 60
 --------------------------
-Lift-1 Operation
+Lift-0 Operation
 Previous position: Floor 4
 Request: Floor 7 to Floor 2
 Detail operations:
@@ -748,10 +747,10 @@ Detail operations:
 	Go from floor 7 to Floor 2
 	#movement for this request: 8
 	#request: 18
-	Total #movement: 106
+	Total #movement: 96
 Current position: Floor 2
 --------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 5
 Request: Floor 3 to Floor 8
 Detail operations:
@@ -759,7 +758,7 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 7
 	#request: 18
-	Total #movement: 120
+	Total #movement: 126
 Current position: Floor 8
 --------------------------
 Lift-2 Operation
@@ -770,7 +769,7 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 4
 	#request: 18
-	Total #movement: 108
+	Total #movement: 100
 Current position: Floor 4
 --------------------------
 New Lift Request From Floor 3 to Floor 8
@@ -782,38 +781,27 @@ Request No: 62
 New Lift Request From Floor 1 to Floor 5
 Request No: 63
 --------------------------
-Lift-1 Operation
-Previous position: Floor 2
+Lift-2 Operation
+Previous position: Floor 4
 Request: Floor 1 to Floor 5
 Detail operations:
-	Go from Floor 2 to Floor 1
+	Go from Floor 4 to Floor 1
 	Go from floor 1 to Floor 5
-	#movement for this request: 5
+	#movement for this request: 7
 	#request: 19
-	Total #movement: 111
+	Total #movement: 107
 Current position: Floor 5
 --------------------------
 Lift-0 Operation
-Previous position: Floor 8
+Previous position: Floor 2
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 8 to Floor 7
+	Go from Floor 2 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 6
+	#movement for this request: 10
 	#request: 19
-	Total #movement: 126
+	Total #movement: 106
 Current position: Floor 2
---------------------------
-Lift-2 Operation
-Previous position: Floor 4
-Request: Floor 3 to Floor 8
-Detail operations:
-	Go from Floor 4 to Floor 3
-	Go from floor 3 to Floor 8
-	#movement for this request: 6
-	#request: 19
-	Total #movement: 114
-Current position: Floor 8
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 64
@@ -821,83 +809,83 @@ Request No: 64
 New Lift Request From Floor 3 to Floor 8
 Request No: 65
 --------------------------
+Lift-1 Operation
+Previous position: Floor 8
+Request: Floor 3 to Floor 8
+Detail operations:
+	Go from Floor 8 to Floor 3
+	Go from floor 3 to Floor 8
+	#movement for this request: 10
+	#request: 19
+	Total #movement: 136
+Current position: Floor 8
+--------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 66
 --------------------------
-Lift-0 Operation
-Previous position: Floor 2
+Lift-2 Operation
+Previous position: Floor 5
 Request: Floor 3 to Floor 4
 Detail operations:
-	Go from Floor 2 to Floor 3
+	Go from Floor 5 to Floor 3
 	Go from floor 3 to Floor 4
-	#movement for this request: 2
+	#movement for this request: 3
 	#request: 20
-	Total #movement: 128
+	Total #movement: 110
 Current position: Floor 4
+--------------------------
+Lift-0 Operation
+Previous position: Floor 2
+Request: Floor 5 to Floor 6
+Detail operations:
+	Go from Floor 2 to Floor 5
+	Go from floor 5 to Floor 6
+	#movement for this request: 4
+	#request: 20
+	Total #movement: 110
+Current position: Floor 6
 --------------------------
 New Lift Request From Floor 5 to Floor 6
 Request No: 67
 --------------------------
-Lift-2 Operation
-Previous position: Floor 8
-Request: Floor 5 to Floor 6
-Detail operations:
-	Go from Floor 8 to Floor 5
-	Go from floor 5 to Floor 6
-	#movement for this request: 4
-	#request: 20
-	Total #movement: 118
-Current position: Floor 6
---------------------------
-Lift-1 Operation
-Previous position: Floor 5
-Request: Floor 1 to Floor 5
-Detail operations:
-	Go from Floor 5 to Floor 1
-	Go from floor 1 to Floor 5
-	#movement for this request: 8
-	#request: 20
-	Total #movement: 119
-Current position: Floor 5
---------------------------
 New Lift Request From Floor 1 to Floor 5
 Request No: 68
+--------------------------
+Lift-1 Operation
+Previous position: Floor 8
+Request: Floor 1 to Floor 5
+Detail operations:
+	Go from Floor 8 to Floor 1
+	Go from floor 1 to Floor 5
+	#movement for this request: 11
+	#request: 20
+	Total #movement: 147
+Current position: Floor 5
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 69
 --------------------------
-Lift-1 Operation
-Previous position: Floor 5
+Lift-2 Operation
+Previous position: Floor 4
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 5 to Floor 7
+	Go from Floor 4 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 7
-	#request: 21
-	Total #movement: 126
-Current position: Floor 2
---------------------------
-Lift-2 Operation
-Previous position: Floor 6
-Request: Floor 3 to Floor 8
-Detail operations:
-	Go from Floor 6 to Floor 3
-	Go from floor 3 to Floor 8
 	#movement for this request: 8
 	#request: 21
-	Total #movement: 126
-Current position: Floor 8
+	Total #movement: 118
+Current position: Floor 2
 --------------------------
-Lift-0 Operation
-Previous position: Floor 4
-Request: Floor 3 to Floor 4
+Lift-1 Operation
+Previous position: Floor 5
+Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 4 to Floor 3
-	Go from floor 3 to Floor 4
-	#movement for this request: 2
+	Go from Floor 5 to Floor 3
+	Go from floor 3 to Floor 8
+	#movement for this request: 7
 	#request: 21
-	Total #movement: 130
-Current position: Floor 4
+	Total #movement: 154
+Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 70
@@ -905,10 +893,21 @@ Request No: 70
 New Lift Request From Floor 3 to Floor 4
 Request No: 71
 --------------------------
+Lift-0 Operation
+Previous position: Floor 6
+Request: Floor 3 to Floor 4
+Detail operations:
+	Go from Floor 6 to Floor 3
+	Go from floor 3 to Floor 4
+	#movement for this request: 4
+	#request: 21
+	Total #movement: 114
+Current position: Floor 4
+--------------------------
 New Lift Request From Floor 1 to Floor 5
 Request No: 72
 --------------------------
-Lift-2 Operation
+Lift-1 Operation
 Previous position: Floor 8
 Request: Floor 1 to Floor 5
 Detail operations:
@@ -916,81 +915,8 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 11
 	#request: 22
-	Total #movement: 137
+	Total #movement: 165
 Current position: Floor 5
---------------------------
-Lift-1 Operation
-Previous position: Floor 2
-Request: Floor 7 to Floor 2
-Detail operations:
-	Go from Floor 2 to Floor 7
-	Go from floor 7 to Floor 2
-	#movement for this request: 10
-	#request: 22
-	Total #movement: 136
-Current position: Floor 2
---------------------------
-Lift-0 Operation
-Previous position: Floor 4
-Request: Floor 3 to Floor 8
-Detail operations:
-	Go from Floor 4 to Floor 3
-	Go from floor 3 to Floor 8
-	#movement for this request: 6
-	#request: 22
-	Total #movement: 136
-Current position: Floor 8
---------------------------
-New Lift Request From Floor 7 to Floor 2
-Request No: 73
---------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 74
---------------------------
-New Lift Request From Floor 3 to Floor 4
-Request No: 75
---------------------------
-Lift-0 Operation
-Previous position: Floor 8
-Request: Floor 3 to Floor 4
-Detail operations:
-	Go from Floor 8 to Floor 3
-	Go from floor 3 to Floor 4
-	#movement for this request: 6
-	#request: 23
-	Total #movement: 142
-Current position: Floor 4
---------------------------
-New Lift Request From Floor 5 to Floor 6
-Request No: 76
---------------------------
-Lift-1 Operation
-Previous position: Floor 2
-Request: Floor 5 to Floor 6
-Detail operations:
-	Go from Floor 2 to Floor 5
-	Go from floor 5 to Floor 6
-	#movement for this request: 4
-	#request: 23
-	Total #movement: 140
-Current position: Floor 6
---------------------------
-Lift-2 Operation
-Previous position: Floor 5
-Request: Floor 1 to Floor 5
-Detail operations:
-	Go from Floor 5 to Floor 1
-	Go from floor 1 to Floor 5
-	#movement for this request: 8
-	#request: 23
-	Total #movement: 145
-Current position: Floor 5
---------------------------
-New Lift Request From Floor 1 to Floor 5
-Request No: 77
---------------------------
-New Lift Request From Floor 7 to Floor 2
-Request No: 78
 --------------------------
 Lift-0 Operation
 Previous position: Floor 4
@@ -999,19 +925,92 @@ Detail operations:
 	Go from Floor 4 to Floor 7
 	Go from floor 7 to Floor 2
 	#movement for this request: 8
+	#request: 22
+	Total #movement: 122
+Current position: Floor 2
+--------------------------
+New Lift Request From Floor 7 to Floor 2
+Request No: 73
+--------------------------
+New Lift Request From Floor 3 to Floor 8
+Request No: 74
+--------------------------
+Lift-2 Operation
+Previous position: Floor 2
+Request: Floor 3 to Floor 8
+Detail operations:
+	Go from Floor 2 to Floor 3
+	Go from floor 3 to Floor 8
+	#movement for this request: 6
+	#request: 22
+	Total #movement: 124
+Current position: Floor 8
+--------------------------
+New Lift Request From Floor 3 to Floor 4
+Request No: 75
+--------------------------
+Lift-1 Operation
+Previous position: Floor 5
+Request: Floor 3 to Floor 4
+Detail operations:
+	Go from Floor 5 to Floor 3
+	Go from floor 3 to Floor 4
+	#movement for this request: 3
+	#request: 23
+	Total #movement: 168
+Current position: Floor 4
+--------------------------
+Lift-0 Operation
+Previous position: Floor 2
+Request: Floor 5 to Floor 6
+Detail operations:
+	Go from Floor 2 to Floor 5
+	Go from floor 5 to Floor 6
+	#movement for this request: 4
+	#request: 23
+	Total #movement: 126
+Current position: Floor 6
+--------------------------
+New Lift Request From Floor 5 to Floor 6
+Request No: 76
+--------------------------
+New Lift Request From Floor 1 to Floor 5
+Request No: 77
+--------------------------
+Lift-2 Operation
+Previous position: Floor 8
+Request: Floor 1 to Floor 5
+Detail operations:
+	Go from Floor 8 to Floor 1
+	Go from floor 1 to Floor 5
+	#movement for this request: 11
+	#request: 23
+	Total #movement: 135
+Current position: Floor 5
+--------------------------
+New Lift Request From Floor 7 to Floor 2
+Request No: 78
+--------------------------
+Lift-0 Operation
+Previous position: Floor 6
+Request: Floor 7 to Floor 2
+Detail operations:
+	Go from Floor 6 to Floor 7
+	Go from floor 7 to Floor 2
+	#movement for this request: 6
 	#request: 24
-	Total #movement: 150
+	Total #movement: 132
 Current position: Floor 2
 --------------------------
 Lift-1 Operation
-Previous position: Floor 6
+Previous position: Floor 4
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 6 to Floor 3
+	Go from Floor 4 to Floor 3
 	Go from floor 3 to Floor 8
-	#movement for this request: 8
+	#movement for this request: 6
 	#request: 24
-	Total #movement: 148
+	Total #movement: 174
 Current position: Floor 8
 --------------------------
 Lift-2 Operation
@@ -1022,7 +1021,7 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 24
-	Total #movement: 148
+	Total #movement: 138
 Current position: Floor 4
 --------------------------
 New Lift Request From Floor 3 to Floor 8
@@ -1042,7 +1041,7 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 5
 	#request: 25
-	Total #movement: 155
+	Total #movement: 137
 Current position: Floor 5
 --------------------------
 Lift-1 Operation
@@ -1053,7 +1052,7 @@ Detail operations:
 	Go from floor 7 to Floor 2
 	#movement for this request: 6
 	#request: 25
-	Total #movement: 154
+	Total #movement: 180
 Current position: Floor 2
 --------------------------
 Lift-2 Operation
@@ -1064,7 +1063,7 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 6
 	#request: 25
-	Total #movement: 154
+	Total #movement: 144
 Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 8
@@ -1076,26 +1075,26 @@ Request No: 83
 New Lift Request From Floor 5 to Floor 6
 Request No: 84
 --------------------------
-Lift-1 Operation
-Previous position: Floor 2
-Request: Floor 3 to Floor 4
-Detail operations:
-	Go from Floor 2 to Floor 3
-	Go from floor 3 to Floor 4
-	#movement for this request: 2
-	#request: 26
-	Total #movement: 156
-Current position: Floor 4
---------------------------
 Lift-2 Operation
 Previous position: Floor 8
+Request: Floor 3 to Floor 4
+Detail operations:
+	Go from Floor 8 to Floor 3
+	Go from floor 3 to Floor 4
+	#movement for this request: 6
+	#request: 26
+	Total #movement: 150
+Current position: Floor 4
+--------------------------
+Lift-1 Operation
+Previous position: Floor 2
 Request: Floor 5 to Floor 6
 Detail operations:
-	Go from Floor 8 to Floor 5
+	Go from Floor 2 to Floor 5
 	Go from floor 5 to Floor 6
 	#movement for this request: 4
 	#request: 26
-	Total #movement: 158
+	Total #movement: 184
 Current position: Floor 6
 --------------------------
 New Lift Request From Floor 1 to Floor 5
@@ -1112,36 +1111,39 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 8
 	#request: 26
-	Total #movement: 163
+	Total #movement: 145
 Current position: Floor 5
 --------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 87
 --------------------------
 Lift-1 Operation
-Previous position: Floor 4
+Previous position: Floor 6
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 4 to Floor 7
+	Go from Floor 6 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 8
+	#movement for this request: 6
 	#request: 27
-	Total #movement: 164
+	Total #movement: 190
 Current position: Floor 2
 --------------------------
 Lift-2 Operation
-Previous position: Floor 6
+Previous position: Floor 4
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 6 to Floor 3
+	Go from Floor 4 to Floor 3
 	Go from floor 3 to Floor 8
-	#movement for this request: 8
+	#movement for this request: 6
 	#request: 27
-	Total #movement: 166
+	Total #movement: 156
 Current position: Floor 8
 --------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 88
+--------------------------
+New Lift Request From Floor 1 to Floor 5
+Request No: 89
 --------------------------
 Lift-0 Operation
 Previous position: Floor 5
@@ -1151,42 +1153,33 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 8
 	#request: 27
-	Total #movement: 171
+	Total #movement: 153
 Current position: Floor 5
---------------------------
-New Lift Request From Floor 1 to Floor 5
-Request No: 89
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 90
 --------------------------
-Lift-1 Operation
-Previous position: Floor 2
-Request: Floor 7 to Floor 2
-Detail operations:
-	Go from Floor 2 to Floor 7
-	Go from floor 7 to Floor 2
-	#movement for this request: 10
-	#request: 28
-	Total #movement: 174
-Current position: Floor 2
---------------------------
 Lift-2 Operation
 Previous position: Floor 8
+Request: Floor 7 to Floor 2
+Detail operations:
+	Go from Floor 8 to Floor 7
+	Go from floor 7 to Floor 2
+	#movement for this request: 6
+	#request: 28
+	Total #movement: 162
+Current position: Floor 2
+--------------------------
+Lift-1 Operation
+Previous position: Floor 2
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 8 to Floor 3
+	Go from Floor 2 to Floor 3
 	Go from floor 3 to Floor 8
-	#movement for this request: 10
+	#movement for this request: 6
 	#request: 28
-	Total #movement: 176
+	Total #movement: 196
 Current position: Floor 8
---------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 91
---------------------------
-New Lift Request From Floor 3 to Floor 4
-Request No: 92
 --------------------------
 Lift-0 Operation
 Previous position: Floor 5
@@ -1196,32 +1189,38 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 28
-	Total #movement: 174
+	Total #movement: 156
 Current position: Floor 4
+--------------------------
+New Lift Request From Floor 3 to Floor 8
+Request No: 91
+--------------------------
+New Lift Request From Floor 3 to Floor 4
+Request No: 92
 --------------------------
 New Lift Request From Floor 5 to Floor 6
 Request No: 93
 --------------------------
 Lift-1 Operation
-Previous position: Floor 2
+Previous position: Floor 8
 Request: Floor 5 to Floor 6
 Detail operations:
-	Go from Floor 2 to Floor 5
+	Go from Floor 8 to Floor 5
 	Go from floor 5 to Floor 6
 	#movement for this request: 4
 	#request: 29
-	Total #movement: 178
+	Total #movement: 200
 Current position: Floor 6
 --------------------------
 Lift-2 Operation
-Previous position: Floor 8
+Previous position: Floor 2
 Request: Floor 1 to Floor 5
 Detail operations:
-	Go from Floor 8 to Floor 1
+	Go from Floor 2 to Floor 1
 	Go from floor 1 to Floor 5
-	#movement for this request: 11
+	#movement for this request: 5
 	#request: 29
-	Total #movement: 187
+	Total #movement: 167
 Current position: Floor 5
 --------------------------
 New Lift Request From Floor 1 to Floor 5
@@ -1238,7 +1237,7 @@ Detail operations:
 	Go from floor 7 to Floor 2
 	#movement for this request: 8
 	#request: 29
-	Total #movement: 182
+	Total #movement: 164
 Current position: Floor 2
 --------------------------
 New Lift Request From Floor 3 to Floor 8
@@ -1252,7 +1251,7 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 8
 	#request: 30
-	Total #movement: 186
+	Total #movement: 208
 Current position: Floor 8
 --------------------------
 Lift-2 Operation
@@ -1263,7 +1262,7 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 30
-	Total #movement: 190
+	Total #movement: 170
 Current position: Floor 4
 --------------------------
 New Lift Request From Floor 3 to Floor 4
@@ -1280,36 +1279,33 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 5
 	#request: 30
-	Total #movement: 187
+	Total #movement: 169
 Current position: Floor 5
 --------------------------
 New Lift Request From Floor 1 to Floor 5
 Request No: 99
 --------------------------
-Lift-1 Operation
-Previous position: Floor 8
-Request: Floor 7 to Floor 2
-Detail operations:
-	Go from Floor 8 to Floor 7
-	Go from floor 7 to Floor 2
-	#movement for this request: 6
-	#request: 31
-	Total #movement: 192
-Current position: Floor 2
---------------------------
 Lift-2 Operation
 Previous position: Floor 4
+Request: Floor 7 to Floor 2
+Detail operations:
+	Go from Floor 4 to Floor 7
+	Go from floor 7 to Floor 2
+	#movement for this request: 8
+	#request: 31
+	Total #movement: 178
+Current position: Floor 2
+--------------------------
+Lift-1 Operation
+Previous position: Floor 8
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 4 to Floor 3
+	Go from Floor 8 to Floor 3
 	Go from floor 3 to Floor 8
-	#movement for this request: 6
+	#movement for this request: 10
 	#request: 31
-	Total #movement: 196
+	Total #movement: 218
 Current position: Floor 8
---------------------------
-New Lift Request From Floor 7 to Floor 2
-Request No: 100
 --------------------------
 Lift-0 Operation
 Previous position: Floor 5
@@ -1319,8 +1315,11 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 3
 	#request: 31
-	Total #movement: 190
+	Total #movement: 172
 Current position: Floor 4
+--------------------------
+New Lift Request From Floor 7 to Floor 2
+Request No: 100
 --------------------------
 New Lift Request From Floor 3 to Floor 8
 Request No: 101
@@ -1328,7 +1327,7 @@ Request No: 101
 New Lift Request From Floor 3 to Floor 4
 Request No: 102
 --------------------------
-Lift-1 Operation
+Lift-2 Operation
 Previous position: Floor 2
 Request: Floor 5 to Floor 6
 Detail operations:
@@ -1336,18 +1335,18 @@ Detail operations:
 	Go from floor 5 to Floor 6
 	#movement for this request: 4
 	#request: 32
-	Total #movement: 196
+	Total #movement: 182
 Current position: Floor 6
 --------------------------
-Lift-2 Operation
-Previous position: Floor 8
+Lift-0 Operation
+Previous position: Floor 4
 Request: Floor 1 to Floor 5
 Detail operations:
-	Go from Floor 8 to Floor 1
+	Go from Floor 4 to Floor 1
 	Go from floor 1 to Floor 5
-	#movement for this request: 11
+	#movement for this request: 7
 	#request: 32
-	Total #movement: 207
+	Total #movement: 179
 Current position: Floor 5
 --------------------------
 New Lift Request From Floor 5 to Floor 6
@@ -1356,46 +1355,32 @@ Request No: 103
 New Lift Request From Floor 1 to Floor 5
 Request No: 104
 --------------------------
-Lift-0 Operation
-Previous position: Floor 4
+Lift-1 Operation
+Previous position: Floor 8
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 4 to Floor 7
+	Go from Floor 8 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 8
+	#movement for this request: 6
 	#request: 32
-	Total #movement: 198
+	Total #movement: 224
 Current position: Floor 2
 --------------------------
 New Lift Request From Floor 7 to Floor 2
 Request No: 105
 --------------------------
-Lift-1 Operation
-Previous position: Floor 6
+Lift-0 Operation
+Previous position: Floor 5
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 6 to Floor 3
+	Go from Floor 5 to Floor 3
 	Go from floor 3 to Floor 8
-	#movement for this request: 8
+	#movement for this request: 7
 	#request: 33
-	Total #movement: 204
+	Total #movement: 186
 Current position: Floor 8
 --------------------------
-Lift-2 Operation
-Previous position: Floor 5
-Request: Floor 3 to Floor 4
-Detail operations:
-	Go from Floor 5 to Floor 3
-	Go from floor 3 to Floor 4
-	#movement for this request: 3
-	#request: 33
-	Total #movement: 210
-Current position: Floor 4
---------------------------
-New Lift Request From Floor 3 to Floor 8
-Request No: 106
---------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 2
 Request: Floor 3 to Floor 4
 Detail operations:
@@ -1403,11 +1388,25 @@ Detail operations:
 	Go from floor 3 to Floor 4
 	#movement for this request: 2
 	#request: 33
-	Total #movement: 200
+	Total #movement: 226
 Current position: Floor 4
+--------------------------
+New Lift Request From Floor 3 to Floor 8
+Request No: 106
 --------------------------
 New Lift Request From Floor 3 to Floor 4
 Request No: 107
+--------------------------
+Lift-2 Operation
+Previous position: Floor 6
+Request: Floor 3 to Floor 4
+Detail operations:
+	Go from Floor 6 to Floor 3
+	Go from floor 3 to Floor 4
+	#movement for this request: 4
+	#request: 33
+	Total #movement: 186
+Current position: Floor 4
 --------------------------
 Lift-2 Operation
 Previous position: Floor 4
@@ -1417,10 +1416,10 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 7
 	#request: 34
-	Total #movement: 217
+	Total #movement: 193
 Current position: Floor 5
 --------------------------
-Lift-1 Operation
+Lift-0 Operation
 Previous position: Floor 8
 Request: Floor 7 to Floor 2
 Detail operations:
@@ -1428,10 +1427,10 @@ Detail operations:
 	Go from floor 7 to Floor 2
 	#movement for this request: 6
 	#request: 34
-	Total #movement: 210
+	Total #movement: 192
 Current position: Floor 2
 --------------------------
-Lift-0 Operation
+Lift-1 Operation
 Previous position: Floor 4
 Request: Floor 3 to Floor 8
 Detail operations:
@@ -1439,31 +1438,32 @@ Detail operations:
 	Go from floor 3 to Floor 8
 	#movement for this request: 6
 	#request: 34
-	Total #movement: 206
+	Total #movement: 232
 Current position: Floor 8
---------------------------
-Lift-0 Operation
-Previous position: Floor 8
-Request: Floor 3 to Floor 4
-Detail operations:
-	Go from Floor 8 to Floor 3
-	Go from floor 3 to Floor 4
-	#movement for this request: 6
-	#request: 35
-	Total #movement: 212
-Current position: Floor 4
 --------------------------
 Lift-2 Operation
 Previous position: Floor 5
-Request: Floor 5 to Floor 6
+Request: Floor 3 to Floor 4
 Detail operations:
-	Go from floor 5 to Floor 6
-	#movement for this request: 1
+	Go from Floor 5 to Floor 3
+	Go from floor 3 to Floor 4
+	#movement for this request: 3
 	#request: 35
-	Total #movement: 218
-Current position: Floor 6
+	Total #movement: 196
+Current position: Floor 4
 --------------------------
 Lift-1 Operation
+Previous position: Floor 8
+Request: Floor 5 to Floor 6
+Detail operations:
+	Go from Floor 8 to Floor 5
+	Go from floor 5 to Floor 6
+	#movement for this request: 4
+	#request: 35
+	Total #movement: 236
+Current position: Floor 6
+--------------------------
+Lift-0 Operation
 Previous position: Floor 2
 Request: Floor 1 to Floor 5
 Detail operations:
@@ -1471,39 +1471,39 @@ Detail operations:
 	Go from floor 1 to Floor 5
 	#movement for this request: 5
 	#request: 35
-	Total #movement: 215
+	Total #movement: 197
 Current position: Floor 5
 --------------------------
-Lift-1 Operation
-Previous position: Floor 5
+Lift-2 Operation
+Previous position: Floor 4
 Request: Floor 7 to Floor 2
 Detail operations:
-	Go from Floor 5 to Floor 7
+	Go from Floor 4 to Floor 7
 	Go from floor 7 to Floor 2
-	#movement for this request: 7
+	#movement for this request: 8
 	#request: 36
-	Total #movement: 222
+	Total #movement: 204
 Current position: Floor 2
 --------------------------
-Lift-0 Operation
-Previous position: Floor 4
+Lift-1 Operation
+Previous position: Floor 6
 Request: Floor 3 to Floor 8
 Detail operations:
-	Go from Floor 4 to Floor 3
+	Go from Floor 6 to Floor 3
 	Go from floor 3 to Floor 8
-	#movement for this request: 6
+	#movement for this request: 8
 	#request: 36
-	Total #movement: 218
+	Total #movement: 244
 Current position: Floor 8
 --------------------------
-Lift-2 Operation
-Previous position: Floor 6
+Lift-0 Operation
+Previous position: Floor 5
 Request: Floor 3 to Floor 4
 Detail operations:
-	Go from Floor 6 to Floor 3
+	Go from Floor 5 to Floor 3
 	Go from floor 3 to Floor 4
-	#movement for this request: 4
+	#movement for this request: 3
 	#request: 36
-	Total #movement: 222
+	Total #movement: 200
 Current position: Floor 4
 --------------------------
