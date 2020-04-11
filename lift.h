@@ -1,9 +1,7 @@
-
 #include <unistd.h>
 
 #ifndef LIFT_REQUEST_H
 #define LIFT_REQUEST_H
-
 
 typedef struct LiftRequest {
 
@@ -19,8 +17,6 @@ typedef struct _liftStatus {
     int nMove; 
     int nRequest;
     useconds_t t;
-
 } LiftStatus;
-
 
 #endif

@@ -11,7 +11,6 @@
 
 #define OUTPUT_FILE_PATH "./sim_out.txt"
 
-
 void *request(void*);
 void *lift(void*);
 void logLiftRequest(FILE*, LiftRequest, LiftStatus*);
@@ -69,37 +68,29 @@ int main(int argc, char **argv){
             ls[i].t = t;
         }
 
-        /* Create thread */
+        /* Create threads */
         pthread_create(&tLiftRequest, NULL, request, NULL);
         for (i = 0; i < 3; i ++){
-
             pthread_create(&tLift[i], NULL, lift, &ls[i]);
         }
         
         /* Join thread (Essentially wait for all thread to finish work)*/
         pthread_join(tLiftRequest, NULL);
         for (i =0; i< 3; i ++){
-
             pthread_join(tLift[i], NULL);
         }
 
-        /* Close file */
         if (fclose(fout) != 0){
-
             perror("Error closing the file\n");
         }
 
-        /* Deallocate buffer */
         deallocateBuffer(buffer);
-    
     }
-
 
     return 0;
 }
 
 
-/* request */
 void* request(void* args){
     
     char line[512];
@@ -113,7 +104,6 @@ void* request(void* args){
         int src, dst;
 
         if( sscanf(line, "%d %d", &src, &dst) != 2 ){
-            
             fprintf(stderr, "Encountered an invalid lift request, choosing to ignore\n");
             continue;
         }
@@ -127,7 +117,6 @@ void* request(void* args){
 
         /* block until buffer has space */
         while (isFull(buffer)){
-        
             #ifdef DEBUG
             printf("\tBuffer is full, waiting...\n");
             #endif
@@ -138,9 +127,8 @@ void* request(void* args){
         #ifdef DEBUG
         printf("\tAdding request { src = %d, dst = %d }\n", src, dst);
         #endif
-
+        
         addRequest(buffer, src, dst); 
-
         fprintf(fout, "New Lift Request From Floor %d to Floor %d\n", src, dst);
         fprintf(fout, "Request No: %d\n", nRequest);
         fprintf(fout, "--------------------------\n");
@@ -161,7 +149,6 @@ void* request(void* args){
 
     /* Closing the input file */
     if (fclose(fin) != 0){
-
         perror("Error closing input file");
     }
 
@@ -180,7 +167,6 @@ void* lift(void* args){
 
     
     for(;;){   
-
         /* Acquire the lock */
         pthread_mutex_lock(&lock);
 
@@ -190,7 +176,6 @@ void* lift(void* args){
 
         /* Block until theres item in the buffer */
         while (isEmpty(buffer) && !hasStopped()) {
-
             #ifdef DEBUG
             printf("\tBuffer is empty, waiting...\n");
             #endif
@@ -200,7 +185,6 @@ void* lift(void* args){
 
         /* If this occurs then the producer has no more item to produce */
         if (isEmpty(buffer)){
-
             pthread_mutex_unlock(&lock);
             break;
         }

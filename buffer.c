@@ -15,7 +15,6 @@ Buffer* createBuffer(size_t size) {
     buffer->requests = (LiftRequest*) malloc(sizeof(LiftRequest) * size);
 
     return buffer;
-
 }
 
 
@@ -41,7 +40,6 @@ void deallocateBuffer(Buffer* buffer){
 void addRequest(Buffer* buffer, int src, int dst){
 
     if (!isFull(buffer)){
-
         buffer->requests[buffer->tail].src = src;
         buffer->requests[buffer->tail].dst = dst;
         buffer->tail ++;
@@ -56,7 +54,6 @@ LiftRequest getRequest(Buffer* buffer){
     LiftRequest req; 
 
     if (!isEmpty(buffer)){
-        
 	    req = buffer->requests[buffer->head];
 	    buffer->head ++;
 	    buffer->head %= buffer->size;
