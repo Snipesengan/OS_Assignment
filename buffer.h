@@ -1,4 +1,3 @@
-
 #include <stdbool.h>
 #include "lift.h"
 
@@ -11,7 +10,7 @@ typedef struct _buffer {
     size_t head;
     size_t tail;
     size_t size;
-	size_t count;
+    size_t count;
 
 } Buffer;
 

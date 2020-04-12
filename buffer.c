@@ -44,7 +44,7 @@ void addRequest(Buffer* buffer, int src, int dst){
         buffer->requests[buffer->tail].dst = dst;
         buffer->tail ++;
         buffer->tail %= buffer->size;
-		buffer->count ++;
+        buffer->count ++;
     }
 }
 
@@ -57,7 +57,7 @@ LiftRequest getRequest(Buffer* buffer){
 	    req = buffer->requests[buffer->head];
 	    buffer->head ++;
 	    buffer->head %= buffer->size;
-		buffer->count --;
+        buffer->count --;
     }
 
     return req;

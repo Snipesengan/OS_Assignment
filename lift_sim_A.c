@@ -36,7 +36,6 @@ int main(int argc, char **argv){
 
 
     if (argc != 3){
-
         printf("./lift_sim_A m t\n\n");
         printf("\tm = buffer size\n");
         printf("\tt = time per request in milliseconds\n");
@@ -46,8 +45,7 @@ int main(int argc, char **argv){
         m = atoi(argv[1]);
         t = atoi(argv[2]);
 
-        if (m < 0 || t < 0){
-
+        if (m <= 0 || t <= 0){
             fprintf(stderr, "Invalid arguments\n");
             return 0;
         }
@@ -60,7 +58,6 @@ int main(int argc, char **argv){
 
         /* Intialize LiftStatus */
         for (i = 0; i < 3; i ++){
-
             ls[i].id = i;
             ls[i].position = 0;
             ls[i].nMove = 0;
@@ -95,7 +92,7 @@ void* request(void* args){
     
     char line[512];
     FILE* fin = fopen("./sim_input.txt", "r");
-    int nRequest = 0;
+    int nRequest = 1;
 
 
     /* Read all the request from simulation file */
@@ -139,7 +136,7 @@ void* request(void* args){
 
         /* Non-Critical Operations */
         nRequest ++;
-	} 
+    } 
 
     /* Signal other threads that there's no item left */
     pthread_mutex_lock(&stop);
