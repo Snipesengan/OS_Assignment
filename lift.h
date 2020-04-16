@@ -10,6 +10,7 @@ typedef struct LiftRequest {
 } LiftRequest;
 
 
+/* Not used */
 typedef struct _liftStatus {
 
     int id;

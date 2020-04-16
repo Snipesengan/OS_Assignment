@@ -1,3 +1,9 @@
+#executable
+lift_sim_A
+
+#vim swp files
+.*.swp
+
 # Prerequisites
 *.d
 

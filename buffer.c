@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -9,9 +8,9 @@ Buffer* createBuffer(size_t size) {
     Buffer *buffer = malloc(sizeof(Buffer));
     
     buffer->size = size;
-	buffer->count = 0;
-    buffer-> head = 0;
-    buffer-> tail = 0;
+    buffer->count = 0;
+    buffer->head = 0;
+    buffer->tail = 0;
     buffer->requests = (LiftRequest*) malloc(sizeof(LiftRequest) * size);
 
     return buffer;
@@ -54,17 +53,12 @@ LiftRequest getRequest(Buffer* buffer){
     LiftRequest req; 
 
     if (!isEmpty(buffer)){
-	    req = buffer->requests[buffer->head];
-	    buffer->head ++;
-	    buffer->head %= buffer->size;
+        req = buffer->requests[buffer->head];
+        buffer->head ++;
+        buffer->head %= buffer->size;
         buffer->count --;
     }
 
     return req;
 }
-
-    
-
-
-
 

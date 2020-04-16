@@ -9,11 +9,12 @@
 #include "lift.h"
 #include "buffer.h"
 
+#define INPUT_FILE_PATH "./sim_input.txt"
 #define OUTPUT_FILE_PATH "./sim_out.txt"
 
 void *request(void*);
 void *lift(void*);
-void logLiftRequest(FILE*, LiftRequest, LiftStatus*);
+void logLiftRequest(FILE*, LiftRequest, int, int, int, int);
 bool hasStopped(void);
 
 /* Should we make shared data global? */
@@ -24,15 +25,14 @@ pthread_cond_t hasSpace = PTHREAD_COND_INITIALIZER;
 pthread_cond_t nonEmpty = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t stop = PTHREAD_MUTEX_INITIALIZER;
 int stopIssued = 0;
+useconds_t t;
 
 
 int main(int argc, char **argv){
 
     int m, i;
-    useconds_t t;
     pthread_t tLiftRequest;
     pthread_t tLift[3];
-    LiftStatus ls[3];
 
 
     if (argc != 3){
@@ -56,19 +56,10 @@ int main(int argc, char **argv){
         /* Initialize buffer */
         buffer = createBuffer(m);
 
-        /* Intialize LiftStatus */
-        for (i = 0; i < 3; i ++){
-            ls[i].id = i;
-            ls[i].position = 0;
-            ls[i].nMove = 0;
-            ls[i].nRequest = 0;
-            ls[i].t = t;
-        }
-
         /* Create threads */
         pthread_create(&tLiftRequest, NULL, request, NULL);
         for (i = 0; i < 3; i ++){
-            pthread_create(&tLift[i], NULL, lift, &ls[i]);
+            pthread_create(&tLift[i], NULL, lift, &i);
         }
         
         /* Join thread (Essentially wait for all thread to finish work)*/
@@ -91,16 +82,16 @@ int main(int argc, char **argv){
 void* request(void* args){
     
     char line[512];
-    FILE* fin = fopen("./sim_input.txt", "r");
+    FILE* fin = fopen(INPUT_FILE_PATH, "r");
     int nRequest = 1;
 
 
     /* Read all the request from simulation file */
-    while (fgets(line, 512, fin) != NULL){
+    while (fgets(line, 512, fin) != NULL){ /* Scanning until EOF */
 
         int src, dst;
 
-        if( sscanf(line, "%d %d", &src, &dst) != 2 ){
+        if( sscanf(line, "%d %d", &src, &dst) != 2 || src < 1 || dst < 1 ){
             fprintf(stderr, "Encountered an invalid lift request, choosing to ignore\n");
             continue;
         }
@@ -156,11 +147,16 @@ void* request(void* args){
     return 0;
 }
 
+
 /* lift */
 void* lift(void* args){
 
+
     LiftRequest request;
-    LiftStatus* liftStatus = (LiftStatus*) args;
+    int id = *((int*) args);
+    int position = 0;
+    int nMove = 0;
+    int nRequest = 0;
 
     
     for(;;){   
@@ -190,51 +186,48 @@ void* lift(void* args){
 
         #ifdef DEBUG
         printf("\tLift-%d serving request { src = %d, dst = %d }\n", 
-            liftStatus->id, request.src, request.dst);
+            id, request.src, request.dst);
         #endif
         
         /* Log Lift request */
-        logLiftRequest(fout, request, liftStatus);
+        logLiftRequest(fout, request, id, position, nMove, nRequest);
 
         /* Unlock */
         pthread_cond_signal(&hasSpace);
         pthread_mutex_unlock(&lock);
 
         /* Non-critical Operations */
-        liftStatus->nRequest += 1;
-        liftStatus->nMove += abs(liftStatus->position - request.src);
-        liftStatus->nMove += abs(request.src - request.dst);
-        liftStatus->position = request.dst;
-        usleep(liftStatus->t * 1000);
+        nRequest += 1;
+        nMove += abs(position - request.src) + abs(request.src - request.dst);
+        position = request.dst;
+        usleep(t * 1000);
    }
 
    #ifdef DEBUG
-   printf("Lift-%d thread done\n", liftStatus->id);
+   printf("Lift-%d thread done\n", id);
    #endif
 
    return 0;
 }
 
 
-void logLiftRequest(FILE* f, LiftRequest request, LiftStatus* liftStatus){
+void logLiftRequest(FILE* f, LiftRequest request, int id, int position, int nMove, int nRequest){
 
-    int nMove = abs(liftStatus->position - request.src) + abs(request.src - request.dst);
-    int nRequest = liftStatus->nRequest + 1;
+    int move = abs(position - request.src) + abs(request.src - request.dst);
 
-
-    fprintf(f, "Lift-%d Operation\n", liftStatus->id);
-    fprintf(f, "Previous position: Floor %d\n", liftStatus->position);
+    fprintf(f, "Lift-%d Operation\n", id);
+    fprintf(f, "Previous position: Floor %d\n", position);
     fprintf(f, "Request: Floor %d to Floor %d\n", request.src, request.dst);
     fprintf(f, "Detail operations:\n");
     
-    if (liftStatus->position != request.src){
-        fprintf(f, "\tGo from Floor %d to Floor %d\n", liftStatus->position, request.src);
+    if (position != request.src){
+        fprintf(f, "\tGo from Floor %d to Floor %d\n", position, request.src);
     }
 
     fprintf(f, "\tGo from floor %d to Floor %d\n", request.src, request.dst);
-    fprintf(f, "\t#movement for this request: %d\n", nMove);
-    fprintf(f, "\t#request: %d\n", nRequest);
-    fprintf(f, "\tTotal #movement: %d\n", liftStatus->nMove + nMove);
+    fprintf(f, "\t#movement for this request: %d\n", move);
+    fprintf(f, "\t#request: %d\n", nRequest + 1);
+    fprintf(f, "\tTotal #movement: %d\n", nMove + move);
     fprintf(f, "Current position: Floor %d\n", request.dst);
     fprintf(f, "--------------------------\n");
 }
