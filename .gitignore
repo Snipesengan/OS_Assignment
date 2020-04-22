@@ -2,7 +2,7 @@
 lift_sim_A
 
 #vim swp files
-.*.swp
+.*.sw*
 
 # Prerequisites
 *.d
