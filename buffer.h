@@ -14,6 +14,7 @@ typedef struct _buffer {
 
 } Buffer;
 
+Buffer* createMMAPBuffer(size_t size);
 Buffer* createBuffer(size_t size);
 void deallocateBuffer(Buffer*);
 void addRequest(Buffer*, int, int);

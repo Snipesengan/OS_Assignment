@@ -4,6 +4,22 @@
 
 #include "buffer.h"
 
+Buffer* createMMAPBuffer(size_t size){
+    
+    int protection = PROT_READ | PROT_WRITE;   
+    int visibility = MAP_SHARED | MAP_ANONYMOUS;
+
+    Buffer* buffer = (Buffer*) mmap(NULL, sizeof(Buffer), protection, visibility, -1, 0);     
+    buffer->count = 0;
+    buffer->head = 0;
+    buffer->tail = 0;
+    buffer->size = size;
+
+    buffer->requests = (LiftRequest*) mmap(NULL, size * sizeof(LiftRequest),
+                                            protection, visibility, -1, 0);
+
+    return buffer;
+}
 
 Buffer* createBuffer(size_t size) {
 	

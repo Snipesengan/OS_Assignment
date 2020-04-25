@@ -13,18 +13,14 @@
 #include "lift.h"
 #include "buffer.h"
 
-/* name of shared memory object */
-#define SHMCOUNT_PATH "/count_seg"
-#define SHMHEAD_PATH "/head_seg"
-#define SHMBUFF_PATH "/buffer_seg"
 #define INPUT_FILE_PATH "./sim_input.txt"
 #define OUTPUT_FILE_PATH "./sim_out.txt"
 
-int request(int, int*, int*, LiftRequest*);
+
+int request(int, Buffer*);
 void *lift(void*);
 void logLiftRequest(FILE*, LiftRequest, int, int, int, int);
 bool hasStopped(void);
-
 
 int main(int argc, char **argv){
 
@@ -33,9 +29,7 @@ int main(int argc, char **argv){
     int status = 0;
     pid_t pid;
 
-    int shmfd_buffer, shmfd_count, shmfd_head;
-    LiftRequest* buff_ptr;
-    int *head_ptr, *count_ptr;
+    int shmfd;
     Buffer* buffer;
 
 
@@ -55,52 +49,7 @@ int main(int argc, char **argv){
         exit(1);
     }
 
-    /* Creating the share memory objects */
-    /* flags: 
-        O_CREAT: Create the share memory objet if it does not exists.
-        O_RWDR: Open the object for read-write access
-        O_TRUNC: If the share memory object already exists, truncate it to zero bytes
-
-        mode:
-        S_IRWXU: User Read/Write/Execute priviliege
-        S_IRWXG: Group Read/Write/Execute priviliege
-    */
-    shmfd_buffer = shm_open(SHMBUFF_PATH, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU | S_IRWXG);
-    shmfd_count = shm_open(SHMCOUNT_PATH, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU | S_IRWXG);
-    shmfd_head = shm_open(SHMHEAD_PATH, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU | S_IRWXG);
-
-
-    /* adjust the mapped file size */
-    seg_size = m * sizeof(LiftRequest);
-    ftruncate(shmfd_count, sizeof(int));
-    ftruncate(shmfd_head, sizeof(int));
-    ftruncate(shmfd_buffer, seg_size);
-    
-    #ifdef DEBUG
-    printf("Created share memory buffer %s, and share count %s, and shared head %s.\n",
-        SHMBUFF_PATH, SHMCOUNT_PATH, SHMHEAD_PATH);
-    #endif
-
-    /* requesting the share segment */
-    buff_ptr = (LiftRequest*) mmap(NULL, 
-                                   seg_size, 
-                                   PROT_READ | PROT_WRITE, 
-                                   MAP_SHARED | MAP_ANONYMOUS, shmfd_buffer, 0);
-
-    head_ptr = (int*) mmap(NULL, 
-                           sizeof(int), 
-                           PROT_READ | PROT_WRITE, 
-                           MAP_SHARED | MAP_ANONYMOUS, shmfd_head, 0);
-
-    count_ptr = (int*) mmap(NULL, 
-                            sizeof(int), 
-                            PROT_READ | PROT_WRITE, 
-                            MAP_SHARED | MAP_ANONYMOUS, shmfd_count, 0);
-
-    /* initialize count and head of the buffer*/
-    *head_ptr = 0;
-    *count_ptr = 0;
-
+    buffer = createMMAPBuffer(m);
     
     /* create the first child process */
     pid = fork();
@@ -110,8 +59,7 @@ int main(int argc, char **argv){
         printf("child PID = %d, parent pid = %d\n", getpid(), getppid());
         #endif
 
-        request(m, head_ptr, count_ptr, buff_ptr);
-
+        request(m, buffer);
     }
     else if (pid < 0)
     {   /* fork failed */
@@ -132,13 +80,10 @@ int main(int argc, char **argv){
         #endif
 
         /* print buffer for debugging */
-        while (*count_ptr > 0){
+        while (!isEmpty(buffer)){
 
-            LiftRequest request = buff_ptr[*head_ptr]; 
+            LiftRequest request = getRequest(buffer);
             printf("src = %d, dst = %d\n", request.src, request.dst);
-
-            *head_ptr = (*head_ptr + 1) % m;
-            *count_ptr = *count_ptr - 1;
         }
     }
 
@@ -146,7 +91,7 @@ int main(int argc, char **argv){
 }
 
 
-int request(int m, int* head, int* count, LiftRequest* buffer){
+int request(int m, Buffer* buffer){
     
     char line[512];
     FILE* fin = fopen(INPUT_FILE_PATH, "r");
@@ -156,7 +101,6 @@ int request(int m, int* head, int* count, LiftRequest* buffer){
     while (fgets(line, 512, fin) != NULL){ /* Scanning until EOF */
 
         int src, dst;
-        int tail;
 
         if( sscanf(line, "%d %d", &src, &dst) != 2 || src < 1 || dst < 1 ){
             fprintf(stderr, "Encountered an invalid lift request, choosing to ignore\n");
@@ -168,16 +112,16 @@ int request(int m, int* head, int* count, LiftRequest* buffer){
         printf("Attempting to add new request\n");
         #endif
        
-        tail = (*head + *count) % m;
 
         #ifdef DEBUG
-        printf("\tAdding request { src = %d, dst = %d } to position %d in buffer.\n", 
-            src, dst, tail);
+        printf("\tAdding request { src = %d, dst = %d }.\n", src, dst);
         #endif 
         
-        buffer[tail].src = src;
-        buffer[tail].dst = dst;
-        *count = *count + 1;
+        buffer->requests[buffer->tail].src = src;
+        buffer->requests[buffer->tail].dst = dst;
+        buffer->tail = (buffer->tail + 1) % buffer->size;
+        buffer->count = buffer->count + 1;
+
 
         /* Non-Critical Operations */
         nRequest ++;
