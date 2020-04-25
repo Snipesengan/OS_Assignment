@@ -1,7 +1,9 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/mman.h>
 
 #include "buffer.h"
+
 
 Buffer* createBuffer(size_t size) {
 	

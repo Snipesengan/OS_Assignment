@@ -6,11 +6,11 @@
 
 typedef struct _buffer {
     
-    LiftRequest* requests;
     size_t head;
     size_t tail;
     size_t size;
     size_t count;
+    LiftRequest* requests;
 
 } Buffer;
 
