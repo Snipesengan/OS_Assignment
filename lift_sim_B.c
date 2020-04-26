@@ -39,7 +39,7 @@ int main(int argc, char **argv){
 
     int m, t;
     int status = 0;
-    pid_t r_pid, l_pid;
+    pid_t r_pid, l1_pid, l2_pid, l3_pid;
 
 
     if (argc != 3){
@@ -80,11 +80,9 @@ int main(int argc, char **argv){
     else
     {   /* parent process */
 
-        #ifdef DEBUG
         printf("fork() main. PID = %d, child pid = %d\n", getpid(), r_pid); 
-        #endif 
-        
         l_pid = fork();
+
         if (l_pid == 0){
             printf("start lift. PID = %d, parent pid = %d.\n", getpid(), getppid());
             lift(NULL);
@@ -150,6 +148,15 @@ void* request(void* arg){
     printf("Request thread done\n");
     #endif
 
+    /* Append an EOF to the buffer to signify that the request process is finished */
+    sem_wait(empty);
+    sem_wait(mutex);
+
+    addRequest(buffer, EOF, EOF);
+
+    sem_post(mutex);
+    sem_post(full);
+
     return 0;
 }
 
@@ -170,12 +177,19 @@ void* lift(void* args){
         sem_wait(full);
         sem_wait(mutex);
 
+        /* Critical section */
         #ifdef DEBUG
         printf("Attempting to remove from buffer\n");
         #endif
 
-        printf("buffer count %d.\n", buffer->count);
         request = getRequest(buffer);
+
+        if (request.src == EOF && request.dst == EOF){
+            
+            addRequest(buffer, request.src, request.dst);
+            sem_post(mutex);
+            break;
+        }
 
         #ifdef DEBUG
         printf("\tLift-%d serving request { src = %d, dst = %d }\n", 
@@ -184,6 +198,8 @@ void* lift(void* args){
 
         sem_post(mutex);
         sem_post(empty);
+
+        /* Non-critical section */
         sleep(1);
    }
 
