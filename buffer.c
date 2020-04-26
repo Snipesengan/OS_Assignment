@@ -54,6 +54,15 @@ void deallocateBuffer(Buffer* buffer){
 }
 
 
+void destroyMMAPBuffer(Buffer* buffer){
+    
+    if (munmap(buffer->requests, buffer->size * sizeof(LiftRequest)) < 0 ||
+        munmap(buffer, sizeof(Buffer))){
+        perror("error while unmapping buffer");
+    }
+}
+
+
 void addRequest(Buffer* buffer, int src, int dst){
 
     if (!isFull(buffer)){

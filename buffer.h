@@ -17,6 +17,7 @@ typedef struct _buffer {
 Buffer* createMMAPBuffer(size_t size);
 Buffer* createBuffer(size_t size);
 void deallocateBuffer(Buffer*);
+void destroyMMAPBuffer(Buffer*);
 void addRequest(Buffer*, int, int);
 LiftRequest getRequest(Buffer*);
 bool isFull(Buffer*);
