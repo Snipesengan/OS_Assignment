@@ -6,9 +6,10 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/shm.h>
-#include <sys/stat.h>
 #include <sys/mman.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+#include <semaphore.h>
 
 #include "lift.h"
 #include "buffer.h"
@@ -16,28 +17,36 @@
 #define INPUT_FILE_PATH "./sim_input.txt"
 #define OUTPUT_FILE_PATH "./sim_out.txt"
 
+#define SEM_FULL_PATH "/sem_full"
+#define SEM_EMPTY_PATH "/sem_empty"
+#define SEM_MUTEX_PATH "/sem_mutex"
+#define SEM_PERMS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP)
 
-int request(int, Buffer*);
+void *request(void*);
 void *lift(void*);
 void logLiftRequest(FILE*, LiftRequest, int, int, int, int);
-bool hasStopped(void);
+void init_sem(int);
+
+
+FILE* fout = NULL;
+Buffer* buffer = NULL;
+sem_t* full;
+sem_t* empty;
+sem_t* mutex;
+int stopIssued;
 
 int main(int argc, char **argv){
 
     int m, t;
-    size_t seg_size;
     int status = 0;
-    pid_t pid;
-
-    int shmfd;
-    Buffer* buffer;
+    pid_t r_pid, l_pid;
 
 
     if (argc != 3){
         printf("./lift_sim_A m t\n\n");
         printf("\tm = buffer size\n");
         printf("\tt = time per request in milliseconds\n");
-        exit(0);
+        exit(EXIT_FAILURE);
     }
 
     /* parse input */
@@ -46,44 +55,47 @@ int main(int argc, char **argv){
 
     if (m <= 0 || t <= 0){
         fprintf(stderr, "Invalid arguments\n");
-        exit(1);
+        exit(EXIT_SUCCESS);
     }
 
+    /* Create shared buffer */
     buffer = createMMAPBuffer(m);
     
-    /* create the first child process */
-    pid = fork();
-    if (pid == 0)
-    { /* child process */
-        #ifdef DEBUG
-        printf("child PID = %d, parent pid = %d\n", getpid(), getppid());
-        #endif
+    /* initialise sem */
+    init_sem(m);
 
-        request(m, buffer);
+    /* create the first child process */
+    r_pid = fork();
+    if (r_pid == 0)
+    { /* child process */
+
+        printf("start request. PID = %d, parent pid = %d.\n", getpid(), getppid());
+        request(NULL);
     }
-    else if (pid < 0)
+    else if (r_pid < 0)
     {   /* fork failed */
-        perror("fork failed");
+        perror("request fork failed");
         status = -1;
     }
     else
     {   /* parent process */
 
         #ifdef DEBUG
-        printf("parent PID = %d, child pid = %d\n", getpid(), pid); 
-        #endif
-
-        if (waitpid(pid, &status, 0) != pid){ status = -1; }
-
-        #ifdef DEBUG
-        printf("Child exit code: %d\n", WEXITSTATUS(status));
-        #endif
-
-        /* print buffer for debugging */
-        while (!isEmpty(buffer)){
-
-            LiftRequest request = getRequest(buffer);
-            printf("src = %d, dst = %d\n", request.src, request.dst);
+        printf("fork() main. PID = %d, child pid = %d\n", getpid(), r_pid); 
+        #endif 
+        
+        l_pid = fork();
+        if (l_pid == 0){
+            printf("start lift. PID = %d, parent pid = %d.\n", getpid(), getppid());
+            lift(NULL);
+        }
+        else if (l_pid < 0){
+            perror("lift fork failed");
+            status = -1;
+        }
+        else{
+            waitpid(r_pid, &status, 0);
+            waitpid(l_pid, &status, 0);
         }
     }
 
@@ -91,7 +103,7 @@ int main(int argc, char **argv){
 }
 
 
-int request(int m, Buffer* buffer){
+void* request(void* arg){
     
     char line[512];
     FILE* fin = fopen(INPUT_FILE_PATH, "r");
@@ -106,25 +118,27 @@ int request(int m, Buffer* buffer){
             fprintf(stderr, "Encountered an invalid lift request, choosing to ignore\n");
             continue;
         }
-
+       
+        sem_wait(empty);
+        sem_wait(mutex);
 
         #ifdef DEBUG
         printf("Attempting to add new request\n");
         #endif
-       
+
 
         #ifdef DEBUG
         printf("\tAdding request { src = %d, dst = %d }.\n", src, dst);
         #endif 
-        
-        buffer->requests[buffer->tail].src = src;
-        buffer->requests[buffer->tail].dst = dst;
-        buffer->tail = (buffer->tail + 1) % buffer->size;
-        buffer->count = buffer->count + 1;
+            
+        addRequest(buffer, src, dst);
 
+        sem_post(mutex);
+        sem_post(full);
 
         /* Non-Critical Operations */
         nRequest ++;
+        sleep(1);
     } 
 
     /* Closing the input file */
@@ -145,7 +159,7 @@ void* lift(void* args){
 
 
     LiftRequest request;
-    int id = *((int*) args);
+    int id = 1;
     int position = 0;
     int nMove = 0;
     int nRequest = 0;
@@ -153,15 +167,24 @@ void* lift(void* args){
     
     for(;;){   
 
+        sem_wait(full);
+        sem_wait(mutex);
+
         #ifdef DEBUG
         printf("Attempting to remove from buffer\n");
         #endif
 
+        printf("buffer count %d.\n", buffer->count);
+        request = getRequest(buffer);
 
         #ifdef DEBUG
         printf("\tLift-%d serving request { src = %d, dst = %d }\n", 
             id, request.src, request.dst);
         #endif
+
+        sem_post(mutex);
+        sem_post(empty);
+        sleep(1);
    }
 
    #ifdef DEBUG
@@ -191,4 +214,26 @@ void logLiftRequest(FILE* f, LiftRequest request, int id, int position, int nMov
     fprintf(f, "\tTotal #movement: %d\n", nMove + move);
     fprintf(f, "Current position: Floor %d\n", request.dst);
     fprintf(f, "--------------------------\n");
+}
+
+void init_sem(int m){
+
+    if((full = sem_open(SEM_FULL_PATH, O_CREAT, SEM_PERMS, 0)) == SEM_FAILED){
+        perror("sem_open(3) error on full");
+        exit(EXIT_FAILURE);
+    }
+
+    if((mutex = sem_open(SEM_MUTEX_PATH, O_CREAT, SEM_PERMS, 1)) == SEM_FAILED){
+        perror("sem_open(3) error on mutex");
+        exit(EXIT_FAILURE);
+    }
+
+    if((empty = sem_open(SEM_EMPTY_PATH, O_CREAT, SEM_PERMS, m)) == SEM_FAILED){
+        perror("sem_open(3) error on ");
+        exit(EXIT_FAILURE);
+    }
+
+    #ifdef DEBUG
+    printf("Created semaphores {%s, %s, %s}.\n", SEM_EMPTY_PATH, SEM_FULL_PATH, SEM_MUTEX_PATH);
+    #endif
 }
