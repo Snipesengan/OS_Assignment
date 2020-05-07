@@ -1,5 +1,8 @@
 #executable
 lift_sim_A
+lift_sim_B
+
+\tex
 
 #vim swp files
 .*.sw*
