@@ -140,7 +140,7 @@ void* request(void* arg){
        
         /* Critical section */
         sem_wait(empty);
-        sem_wait(mutex);
+        sem_wait(mutex); /* for a 1-producer v. N-consumer, you do not need mutex */
 
         #ifdef DEBUG
         printf("Adding request { src = %d, dst = %d }.\n", src, dst);
@@ -197,7 +197,6 @@ void* lift(void* args){
     int nMove = 0;
     int nRequest = 0;
 
-    /* Open sim ouit file */
 
     for(;;){   
 
@@ -206,8 +205,10 @@ void* lift(void* args){
         sem_wait(mutex);
 
         req = getRequest(buffer);
+
+        /* if this request siginifes EOF then exits */
         if (req.src == EOF && req.dst == EOF){
-            addRequest(buffer, req.src, req.dst);
+            addRequest(buffer, req.src, req.dst); /*add EOF back to the buffer */
             sem_post(mutex);
             sem_post(full);
             break;
