@@ -44,6 +44,17 @@ void init_sem(sem_t** sem, int initial){
 }
 
 
+void mmap_lift_status(LiftStatus** lift_status){
+    
+    int protection = PROT_READ | PROT_WRITE;   
+    int visibility = MAP_SHARED | MAP_ANONYMOUS;
+
+    *lift_status = (LiftStatus*) mmap(NULL, 
+                                 sizeof(LiftStatus),
+                                 protection, visibility, -1, 0);     
+}
+
+
 void* request(void* arg){
     
     LiftRequest request;
@@ -102,11 +113,8 @@ void* request(void* arg){
 void* lift(void* args){
 
     LiftRequest request;
-    int id = *((int*) args);
-    int position = 1;
-    int totalMove = 0;
+    LiftStatus* lift_stat = (LiftStatus*) args;
     int nMove = 0;
-    int nRequest = 0;
     char line[512];
 
 
@@ -126,9 +134,9 @@ void* lift(void* args){
             break;
         }
 
-        nRequest += 1;
-        nMove = abs(position - request.src) + abs(request.src - request.dst);
-        totalMove += nMove;
+        lift_stat->n_request += 1;
+        nMove = abs(lift_stat->pos - request.src) + abs(request.src - request.dst);
+        lift_stat->total_move += nMove;
 
         /* Log lift request */
         sprintf(line,                 "--------------------------------------------\n");
@@ -141,15 +149,15 @@ void* lift(void* args){
                                       "     #movement for this request: %d\n"\
                                       "     Total #movement: %d\n"\
                                       "     Current position: Floor %d\n",
-        id, position, request.src, request.dst, position, request.src, 
-        request.src, request.dst, nMove, totalMove, request.dst);
+        lift_stat->id, lift_stat->pos, request.src, request.dst, lift_stat->pos, request.src, 
+        request.src, request.dst, nMove, lift_stat->total_move, request.dst);
         sprintf(line + strlen(line) , "--------------------------------------------\n");
 
         /* Write to end of the file */
         lseek(fd_out, 0, SEEK_END);
         write(fd_out, line, strlen(line));
 
-        position = request.dst; /* Updates the position */
+        lift_stat->pos = request.dst; /* Updates the position */
 
         sem_post(mutex);
         sem_post(empty);
@@ -165,7 +173,10 @@ void* lift(void* args){
 int main(int argc, char **argv){
 
     int m, i;
+    int total_move = 0;
+    int total_request = 0;
     int status = 0;
+    LiftStatus* lift_statuses[3];
     pid_t pid[N_LIFT + 1];
 
 
@@ -204,6 +215,13 @@ int main(int argc, char **argv){
     init_sem(&mutex, 1);
 
     for( i = 0; i < N_LIFT + 1; i++){
+
+        mmap_lift_status(&lift_statuses[i]);
+        lift_statuses[i]->id = i;
+        lift_statuses[i]->pos = 1;
+        lift_statuses[i]->total_move = 0;
+        lift_statuses[i]->n_request = 0;
+
         pid[i] = fork();
         if (pid[i] < 0){
             perror("fork failed");
@@ -214,7 +232,7 @@ int main(int argc, char **argv){
                 request(NULL);
             }
             else{
-                lift(&i);
+                lift(lift_statuses[i]);
             }
             exit(EXIT_SUCCESS); /*prevents child from creating another child */
         }
@@ -223,7 +241,12 @@ int main(int argc, char **argv){
     /* join processes */
     for ( i = 0; i < N_LIFT + 1; i++){
         waitpid(pid[i], &status, 0);
+        total_move += lift_statuses[i]->total_move;
+        total_request += lift_statuses[i]->n_request;
+        munmap(lift_statuses[i], sizeof(LiftStatus));
     }
+
+    printf("Total #request = %d\nTotal #move = %d\n", total_request, total_move);
 
     /* remove shared memory */
     fifo_buf_destroy_mmap(buffer);
@@ -232,7 +255,7 @@ int main(int argc, char **argv){
     munmap(mutex, sizeof(sem_t));
     munmap(full, sizeof(sem_t));
     munmap(empty, sizeof(sem_t));
-
+        
     /* close output file */
     if (close(fd_out) < 0){
         perror("error closing file");

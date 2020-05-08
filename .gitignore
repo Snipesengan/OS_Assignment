@@ -2,7 +2,7 @@
 lift_sim_A
 lift_sim_B
 
-\tex
+report/
 
 #vim swp files
 .*.sw*

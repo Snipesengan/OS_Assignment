@@ -10,14 +10,13 @@ typedef struct LiftRequest {
 } LiftRequest;
 
 
-/* Not used */
 typedef struct _liftStatus {
 
     int id;
-    int position;
-    int nMove; 
-    int nRequest;
-    useconds_t t;
+    int pos;
+    int total_move;
+    int n_request;
+
 } LiftStatus;
 
 #endif

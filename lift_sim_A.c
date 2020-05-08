@@ -73,8 +73,6 @@ void* request(void* args){
     pthread_cond_signal(&nonEmpty); 
     pthread_mutex_unlock(&lock);
 
-
-
     return 0;
 }
 
@@ -82,12 +80,9 @@ void* request(void* args){
 /* lift */
 void* lift(void* args){
 
+    LiftStatus* lift_stat = (LiftStatus*) args;
     LiftRequest request;
-    int id = *((int*) args);
-    int position = 1;
     int nMove = 0;
-    int totalMove = 0;
-    int nRequest = 0;
 
     
     for(;;){   
@@ -107,9 +102,9 @@ void* lift(void* args){
             break;
         }
 
-        nRequest += 1;
-        nMove = abs(position - request.src) + abs(request.src - request.dst);
-        totalMove += nMove;
+        lift_stat->n_request += 1;
+        nMove = abs(lift_stat->pos - request.src) + abs(request.src - request.dst);
+        lift_stat->total_move += nMove;
 
         /* Log Lift request */
         fprintf(fout, "--------------------------------------------\n");
@@ -122,11 +117,11 @@ void* lift(void* args){
                       "     #movement for this request: %d\n"\
                       "     Total #movement: %d\n"\
                       "     Current position: Floor %d\n",
-        id, position, request.src, request.dst, position, request.src, 
-        request.src, request.dst, nMove, totalMove, request.dst);
+        lift_stat->id, lift_stat->pos, request.src, request.dst, lift_stat->pos, request.src, 
+        request.src, request.dst, nMove, lift_stat->total_move, request.dst);
         fprintf(fout, "--------------------------------------------\n");
 
-        position = request.dst;
+        lift_stat->pos = request.dst;
 
         /* Unlock */
         pthread_cond_signal(&hasSpace);
@@ -134,7 +129,7 @@ void* lift(void* args){
 
         /* Non-critical Operations */
         usleep(t * 1000);
-   }
+    }
 
 
    return 0;
@@ -144,6 +139,9 @@ void* lift(void* args){
 int main(int argc, char **argv){
 
     int m, i;
+    int total_move = 0;
+    int total_request = 0;
+    LiftStatus* lift_statuses[3];
     pthread_t tLiftRequest;
     pthread_t tLift[3];
 
@@ -170,21 +168,31 @@ int main(int argc, char **argv){
     fin = fopen(INPUT_FILE_PATH, "r");
     buffer = fifo_buf_init_malloc(m);
 
+
     /* Create threads */
     pthread_create(&tLiftRequest, NULL, request, NULL);
     for (i = 0; i < 3; i ++){
-        pthread_create(&tLift[i], NULL, lift, &i);
+        lift_statuses[i] = (LiftStatus*) malloc(sizeof(LiftStatus));
+        lift_statuses[i]->id = i;
+        lift_statuses[i]->pos = 1;
+        lift_statuses[i]->total_move = 0;
+        lift_statuses[i]->n_request = 0;
+        pthread_create(&tLift[i], NULL, lift, lift_statuses[i]);
     }
     
-
+    
     /* Join thread (Essentially wait for all thread to finish work)*/
     pthread_join(tLiftRequest, NULL);
-    for (i =0; i< 3; i ++){
+    for (i = 0; i< 3; i ++){
         pthread_join(tLift[i], NULL);
+        total_move += lift_statuses[i]->total_move;
+        total_request += lift_statuses[i]->n_request;
+        free(lift_statuses[i]);
     }
 
-    /* Clean up  */
+    printf("Total #request = %d\nTotal #move = %d\n", total_request, total_move);
 
+    /* Clean up  */
     fifo_buf_destroy_malloc(buffer);
     
     if (fclose(fout) != 0){
