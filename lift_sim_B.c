@@ -12,11 +12,11 @@
 #include <semaphore.h>
 
 #include "lift.h"
-#include "buffer.h"
-
+#include "fifo_buf.h"
 
 #define INPUT_FILE_PATH "./sim_input.txt"
 #define OUTPUT_FILE_PATH "./sim_out.txt"
+
 
 #define N_LIFT 3
 #define SEM_FULL_PATH "/sem_full"
@@ -24,17 +24,143 @@
 #define SEM_MUTEX_PATH "/sem_mutex"
 #define SEM_PERMS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP)
 
-void *request(void*);
-void *lift(void*);
-void logLiftRequest(LiftRequest, int, int, int, int);
-void init_sem(int);
-
 int fd_out;
-Buffer* buffer = NULL;
+FILE* fin;
+fifo_buf_t* buffer = NULL;
 sem_t* full;
 sem_t* empty;
 sem_t* mutex;
 int t;
+
+void init_sem(sem_t** sem, int initial){
+
+    int protection = PROT_READ | PROT_WRITE;   
+    int visibility = MAP_SHARED | MAP_ANONYMOUS;
+
+    *sem = (sem_t*) mmap(NULL, 
+                         sizeof(sem_t),
+                         protection, visibility, -1, 0);     
+    sem_init(*sem, -1, initial);
+}
+
+
+void* request(void* arg){
+    
+    LiftRequest request;
+    char line[512];
+    int nRequest = 1;
+
+
+    /* Read all the request from simulation file */
+    while (fgets(line, 512, fin) != NULL){ /* Scanning until EOF */
+
+        int src, dst;
+        if( sscanf(line, "%d %d", &src, &dst) != 2 || src < 1 || dst < 1 ){
+            fprintf(stderr, "Encountered an invalid lift request, choosing to ignore\n");
+            continue;
+        }
+       
+        /* Critical section */
+        sem_wait(empty);
+        sem_wait(mutex); /* for a 1-producer v. N-consumer, you do not need mutex */
+
+        request.src = src;
+        request.dst = dst;
+        fifo_buf_enqueue(buffer, request);
+
+        /* Write to file */
+        sprintf(line,                "--------------------------------------------\n");
+        sprintf(line + strlen(line), "New Lift Request From Floor %d to Floor %d\n"\
+                                     "Request No: %d\n", request.src, request.dst, nRequest);
+        sprintf(line + strlen(line), "--------------------------------------------\n");
+        
+        /* write to fd_out */
+        lseek(fd_out, 0, SEEK_END);
+        write(fd_out, line, strlen(line));
+
+        sem_post(mutex);
+        sem_post(full);
+
+        /* Non-Critical Operations */
+        nRequest ++;
+    } 
+
+    /* Append an EOF to the buffer to signify that the request process is finished */
+    sem_wait(empty);
+    sem_wait(mutex);
+    request.src = EOF;
+    request.dst = EOF;
+    fifo_buf_enqueue(buffer, request);
+    sem_post(mutex);
+    sem_post(full);
+
+    return 0;
+}
+
+
+/* lift */
+void* lift(void* args){
+
+    LiftRequest request;
+    int id = *((int*) args);
+    int position = 1;
+    int totalMove = 0;
+    int nMove = 0;
+    int nRequest = 0;
+    char line[512];
+
+
+    for(;;){   
+
+        /* Critical section */
+        sem_wait(full);
+        sem_wait(mutex);
+
+        fifo_buf_dequeue(buffer, &request);
+
+        /* if this request siginifes EOF then exits */
+        if (request.src == EOF && request.dst == EOF){
+            fifo_buf_enqueue(buffer, request);
+            sem_post(mutex);
+            sem_post(full);
+            break;
+        }
+
+        nRequest += 1;
+        nMove = abs(position - request.src) + abs(request.src - request.dst);
+        totalMove += nMove;
+
+        /* Log lift request */
+        sprintf(line,                 "--------------------------------------------\n");
+        sprintf(line + strlen(line),  "Lift-%d Operation\n"\
+                                      "Previous position: Floor %d\n"\
+                                      "Request: Floor %d to Floor %d\n"\
+                                      "Detail operations:\n"\
+                                      "     Go from Floor %d to Floor %d\n"\
+                                      "     Go from floor %d to Floor %d\n"\
+                                      "     #movement for this request: %d\n"\
+                                      "     Total #movement: %d\n"\
+                                      "     Current position: Floor %d\n",
+        id, position, request.src, request.dst, position, request.src, 
+        request.src, request.dst, nMove, totalMove, request.dst);
+        sprintf(line + strlen(line) , "--------------------------------------------\n");
+
+        /* Write to end of the file */
+        lseek(fd_out, 0, SEEK_END);
+        write(fd_out, line, strlen(line));
+
+        position = request.dst; /* Updates the position */
+
+        sem_post(mutex);
+        sem_post(empty);
+
+        /* Non-critical section */
+        usleep(t * 1000);
+   }
+
+   return 0;
+}
+
 
 int main(int argc, char **argv){
 
@@ -54,28 +180,28 @@ int main(int argc, char **argv){
     m = atoi(argv[1]);
     t = atoi(argv[2]);
 
-    if (m <= 0 || t <= 0){
+    if (m <= 0 || t < 0){
         fprintf(stderr, "Invalid arguments\n");
         exit(EXIT_FAILURE);
     }
 
         
-    /* Open sim ouit file */
+    /* Open sim out file */
     if((fd_out = open(OUTPUT_FILE_PATH, O_CREAT | O_RDWR | O_TRUNC | O_APPEND, 0644)) < 0){
         perror("error openning file");
         exit(EXIT_FAILURE);
     }
+
+    /* Open sim in file */
+    fin = fopen(INPUT_FILE_PATH, "r");
     
-
     /* Create shared buffer */
-    buffer = createMMAPBuffer(m);
-     
-    /* initialise sem */
-    init_sem(m);
+    buffer = fifo_buf_init_mmap(m); 
 
-    #ifdef DEBUG
-    printf("forking main... PID = %d.\n", getpid()); 
-    #endif
+    /* initialise sem */
+    init_sem(&full, 0);
+    init_sem(&empty, m);
+    init_sem(&mutex, 1);
 
     for( i = 0; i < N_LIFT + 1; i++){
         pid[i] = fork();
@@ -85,15 +211,9 @@ int main(int argc, char **argv){
         }
         else if (pid[i] == 0) {
             if (i == 0){
-                #ifdef DEBUG
-                printf("start request. PID = %d, PPID = %d.\n", getpid(), getppid());
-                #endif
                 request(NULL);
             }
             else{
-                #ifdef DEBUG
-                printf("start lift-%d. PID = %d, PPID = %d.\n", i, getpid(), getppid());
-                #endif
                 lift(&i);
             }
             exit(EXIT_SUCCESS); /*prevents child from creating another child */
@@ -106,193 +226,22 @@ int main(int argc, char **argv){
     }
 
     /* remove shared memory */
-    destroyMMAPBuffer(buffer);
+    fifo_buf_destroy_mmap(buffer);
 
     /* remove semaphores */
-    sem_close(mutex);
-    sem_close(full);
-    sem_close(empty);
+    munmap(mutex, sizeof(sem_t));
+    munmap(full, sizeof(sem_t));
+    munmap(empty, sizeof(sem_t));
 
-    /* close the file */
+    /* close output file */
     if (close(fd_out) < 0){
         perror("error closing file");
     }
-
-    return status;
-}
-
-
-void* request(void* arg){
     
-    char line[512];
-    FILE* fin = fopen(INPUT_FILE_PATH, "r");
-    int nRequest = 1;
-
-
-    /* Read all the request from simulation file */
-    while (fgets(line, 512, fin) != NULL){ /* Scanning until EOF */
-
-        int src, dst;
-        if( sscanf(line, "%d %d", &src, &dst) != 2 || src < 1 || dst < 1 ){
-            fprintf(stderr, "Encountered an invalid lift request, choosing to ignore\n");
-            continue;
-        }
-       
-        /* Critical section */
-        sem_wait(empty);
-        sem_wait(mutex); /* for a 1-producer v. N-consumer, you do not need mutex */
-
-        #ifdef DEBUG
-        printf("Adding request { src = %d, dst = %d }.\n", src, dst);
-        #endif 
-        addRequest(buffer, src, dst);
-
-        /* Write to file */
-        sprintf(line, "New Lift Request From Floor %d to Floor %d\n", src, dst);
-        sprintf(line + strlen(line), "Request No: %d\n", nRequest);
-        sprintf(line + strlen(line), "--------------------------\n");
-        
-        /* write to fd_out */
-        if (lseek(fd_out, 0, SEEK_END) < 0){
-            perror("seek error");
-        }
-
-        if (write(fd_out, line, strlen(line)) <= 0){
-            perror("write error");
-        }
-
-        sem_post(mutex);
-        sem_post(full);
-
-        /* Non-Critical Operations */
-        nRequest ++;
-    } 
-
     /* Closing the input file */
     if (fclose(fin) != 0){
         perror("Error closing input file");
     }
 
-    #ifdef DEBUG
-    printf("Request thread done\n");
-    #endif
-
-    /* Append an EOF to the buffer to signify that the request process is finished */
-    sem_wait(empty);
-    sem_wait(mutex);
-    addRequest(buffer, EOF, EOF);
-    sem_post(mutex);
-    sem_post(full);
-
-    return 0;
-}
-
-
-/* lift */
-void* lift(void* args){
-
-    LiftRequest req;
-    int id = *((int*) args);
-    int position = 0;
-    int nMove = 0;
-    int nRequest = 0;
-
-
-    for(;;){   
-
-        /* Critical section */
-        sem_wait(full);
-        sem_wait(mutex);
-
-        req = getRequest(buffer);
-
-        /* if this request siginifes EOF then exits */
-        if (req.src == EOF && req.dst == EOF){
-            addRequest(buffer, req.src, req.dst); /*add EOF back to the buffer */
-            sem_post(mutex);
-            sem_post(full);
-            break;
-        }
-
-        #ifdef DEBUG
-        printf("\tLift-%d serving req { src = %d, dst = %d }.\n", id, req.src, req.dst);
-        #endif 
-        logLiftRequest(req, id, position, nMove, nRequest);
-
-        sem_post(mutex);
-        sem_post(empty);
-
-        /* Non-critical section */
-        nRequest += 1;
-        nMove += abs(position - req.src) + abs(req.src - req.dst);
-        position = req.dst;
-        usleep(t * 1000);
-   }
-
-   #ifdef DEBUG
-   printf("Lift-%d thread done\n", id);
-   #endif
-
-   return 0;
-}
-
-
-void logLiftRequest(LiftRequest request, int id, int position, int nMove, int nRequest){
-
-    char buffer[512];
-    int move = abs(position - request.src) + abs(request.src - request.dst);
-
-    sprintf(buffer, "Lift-%d Operation\n", id);
-    sprintf(buffer + strlen(buffer), "Previous position: Floor %d\n", position);
-    sprintf(buffer + strlen(buffer), "Request: Floor %d to Floor %d\n", request.src, request.dst);
-    sprintf(buffer + strlen(buffer), "Detail operations:\n");
-    
-    if (position != request.src){
-        sprintf(buffer + strlen(buffer), "\tGo from Floor %d to Floor %d\n", position, 
-                                                                             request.src);
-    }
-
-    sprintf(buffer + strlen(buffer), "\tGo from floor %d to Floor %d\n", request.src, 
-                                                                         request.dst);
-    sprintf(buffer + strlen(buffer), "\t#movement for this request: %d\n", move);
-    sprintf(buffer + strlen(buffer), "\t#request: %d\n", nRequest + 1);
-    sprintf(buffer + strlen(buffer), "\tTotal #movement: %d\n", nMove + move);
-    sprintf(buffer + strlen(buffer), "Current position: Floor %d\n", request.dst);
-    sprintf(buffer + strlen(buffer), "--------------------------\n");
-
-    /* write to fd_out */
-    if (lseek(fd_out, 0, SEEK_END) < 0){
-        perror("seek error");
-    }
-
-    if (write(fd_out, buffer, strlen(buffer)) <= 0){
-        perror("write error");
-    }
-}
-
-void init_sem(int m){
-
-    if((full = sem_open(SEM_FULL_PATH, O_CREAT, SEM_PERMS, 0)) == SEM_FAILED){
-        perror("sem_open(3) error on full");
-        exit(EXIT_FAILURE);
-    }
-    sem_init(full, -1, 0);
-
-
-    if((mutex = sem_open(SEM_MUTEX_PATH, O_CREAT, SEM_PERMS, 1)) == SEM_FAILED){
-        perror("sem_open(3) error on mutex");
-        exit(EXIT_FAILURE);
-    }
-    sem_init(mutex, -1, 1);
-
-    if((empty = sem_open(SEM_EMPTY_PATH, O_CREAT, SEM_PERMS, m)) == SEM_FAILED){
-        perror("sem_open(3) error on ");
-        exit(EXIT_FAILURE);
-    }
-    sem_init(empty, -1, m);
-
-
-    #ifdef DEBUG
-    printf("Created semaphores {%s, %s, %s}.\n", SEM_EMPTY_PATH, SEM_FULL_PATH, SEM_MUTEX_PATH);
-    #endif
+    return status;
 }
