@@ -149,7 +149,7 @@ int main(int argc, char **argv){
 
 
     if (argc != 3){
-        printf("./lift_sim_A m t\n\n");
+        printf("%s m t\n\n", argv[0]);
         printf("\tm = buffer size\n");
         printf("\tt = time per request in milliseconds\n");
 

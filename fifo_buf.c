@@ -1,3 +1,8 @@
+/* File  : fifo_buf.c
+ * Date  : 20-04-2020
+ * Author: Nhan Dao <nhan.dao@outlook.com>
+ */ 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/mman.h>

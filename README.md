@@ -17,9 +17,13 @@ Create a file **"sim_input.txt"** to store n requests in the following formats, 
 12 19\
 20 7
 
-Then compile and run...
 ```
 make lift_sim_A
-.\lift_sim_A m t
+./lift_sim_A m t
+
+make lift_sim_B
+./lift_sim_B m t
+
+make clean
 ```
-where m = buffer size and t = time for each lift request. The output is placed in **"sim_out.txt"**.
+where m = buffer size and t = time for each lift request in miliseconds. The output is placed in **"sim_out.txt"**.
